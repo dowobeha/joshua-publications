@@ -41,6 +41,7 @@
 @String{HLT-NAACL-2004 = "Proceedings of the Human Language Technology Conference of the North American chapter of the Association for Computational Linguistics (HLT/NAACL-2004)"}
 @String{HLT-NAACL-2006 = "Proceedings of the Human Language Technology Conference of the North American chapter of the Association for Computational Linguistics (HLT/NAACL-2006)"}
 @String{HLT-NAACL-2007 = "Proceedings of the Human Language Technology Conference of the North American chapter of the Association for Computational Linguistics (HLT/NAACL-2007)"}
+@String{HLT-NAACL-2009 = "Proceedings of the Human Language Technology Conference of the North American chapter of the Association for Computational Linguistics (HLT/NAACL-2009)"}
 
 
 @String{EACL-1989 = "4th Conference of the European Chapter of the Association for Computational Linguistics (EACL-1989)" }
@@ -59,6 +60,7 @@
 @String{IWPT = "Proceedings of the International Workshop on Parsing Technologies"}
 @String{WMT = "Proceedings of the Workshop on Statistical Machine Translation"}
 @String{KDD = "Proceeding of the ACM SIGKDD international conference on Knowledge discovery and data mining"}
+@String{CoNLL-2009 = "Thirteenth Conference On Computational Natural Language Learning (CoNLL-2009)"}
 
 
 
@@ -105,6 +107,7 @@
 @String{HLT-NAACL-2007-address = "Rochester, New York"}
 @String{KDD-2008-address = "New York"}
 @String{EACL-2009-address = "Athens, Greece"}
+@String{CoNLL-2009-address = "Boulder, Colorado"}
 
 
 
@@ -317,6 +320,18 @@
   year =    {2003},
   url = {http://acl.ldc.upenn.edu/J/J03/J03-1002.pdf}
 }
+
+
+
+# Berkeley aligner citation
+@inproceedings{DeNero2007,
+  author = {John DeNero and Dan Klein},
+  title = {Tailoring Word Alignments to Syntactic Machine Translation},
+  booktitle = ACL-2007,
+  address = ACL-2007-address,
+  year = {2007}
+}
+
 
 
 @PhdThesis{OchThesis,
@@ -772,14 +787,17 @@
 
 
 
-@article{Venugopal2009,
-  author =  {Ashish Venugopal and Andreas Zollmann},
-  title =   {Grammar based statistical {MT} on {H}adoop: An end-to-end toolkit for large scale {PSCFG} based statistical machine translation},
-  journal = {The Prague Bulletin of Mathematical Linguistics},
-  volume =  {this volume},
-  year =    {2009}
-}
 
+@Article{Venugopal2009,
+ publicationtype = {article},
+ Author = {Ashish Venugopal and Andreas Zollmann},
+ title = { Grammar based statistical {MT} on {Hadoop}: An end-to-end toolkit for large scale {PSCFG} based {MT}},
+ Journal = {Prague Bulletin of Mathematical Linguistics},
+ Volume = {91},
+ Publisher = {Charles University},
+ PubAddress = {Prague},
+ Year = {2009}
+}
 
 
 @inproceedings{Watanabe2006,
@@ -1116,6 +1134,18 @@
   year =                {2007}
  }
 
+@InProceedings{billott-lang:1989:ACL,
+  author    = {Sylvie Billott  and  Bernard Lang},
+  title     = {The Structure of Shared Forests in Ambiguous Parsing},
+  booktitle = {Proceedings of the 27th Annual Meeting of the Association for Computational Linguistics},
+  month     = {June},
+  year      = {1989},
+  address   = {Vancouver, British Columbia, Canada},
+  publisher = {Association for Computational Linguistics},
+  pages     = {143--151},
+  url       = {http://www.aclweb.org/anthology/P89-1018},
+  doi       = {10.3115/981623.981641}
+}
 
 
 
@@ -1434,6 +1464,18 @@
   year = 	 {2008},
   url = {http://www.aclweb.org/anthology/P/P08/P08-1088}
 }
+
+
+@inproceedings{Garera2009,
+  author =  {Nikesh Garera and Chris Callison-Burch and David Yarowsky},
+  title =           {Improving Translation Lexicon Induction from Monolingual Corpora via Dependency Contexts and Part-of-Speech Equivalences },
+  booktitle = CoNLL-2009,
+  address = CoNLL-2009-address,
+  year = 	 {2009},
+  url = {http://www.aclweb.org/anthology/P/P08/P08-1088}
+}
+
+
 
 
 
@@ -4189,17 +4231,15 @@ address=	 {Honolulu, Hawaii}
   year = 	 {2007}
 }
 
-@InProceedings{zoll:07synt,
-  author = 	 {Andreas Zollmann and Ashish Venugopal and Matthias
-                  Paulik and Stephan Vogel},
-  title = 	 {The Syntax Augmented {MT} ({SAMT}) System for the
-                  Shared Task in the 2007 {ACL} {W}orkshop on
-                  {S}tatistical {M}achine {T}ranslation},
-  booktitle = {Proceedings of the ACL-2007 Workshop on
-                    Statistcal Machine Translation ({WMT-07})},
- address = ACL-2007-address,
-  year = 	 {2007}
-}
+
+@inproceedings{samt2006,
+	Address = {New York, New York},
+	Author = {Andreas Zollmann and Ashish Venugopal},
+  booktitle = {Proceedings of the NAACL-2006 Workshop on
+                    Statistcal Machine Translation ({WMT-06})},
+	Title = {Syntax Augmented Machine Translation via Chart Parsing},
+	Year = {2006}}
+
 
 @InProceedings{duga:07stat,
   author = 	 {Lo\"{\i}c Dugast and Jean Senellart and Philipp Koehn},
