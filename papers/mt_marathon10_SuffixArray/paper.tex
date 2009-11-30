@@ -85,6 +85,9 @@
 %\newcommand{\url}{\begin{verbatim}URL\end{verbatim}}
 \usepackage{url}
 \usepackage{moreverb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
 
 \newcommand{\newcite}{\namecite}
 
@@ -198,11 +201,56 @@ Discuss caching procedure
 Discuss query intersect
 
 \begin{figure}
+%\begin{algorithm}
+%\caption{The basic {\sc QueryIntersect} algorithm}
+\noindent {\bf Algorithm} {\sc Query\_Intersect}
 
-Put algorithm here.
+\noindent {\bf Input:} Sorted list of corpus locations matching source language pattern $a\alpha$:  $M_{a\alpha}$
 
-\caption{Query intersection algorithm implemented in Joshua. This algorithm is based on a corrected version (Lopez, p.c.) of query intersection {\protect \cite{Lopez2008}}, with minor modifications as noted in section \ref{query-intersection}}
+\noindent {\bf Input:} Sorted list of corpus locations matching source language pattern $\alpha{}b$:  $M_{\alpha{}b}$ 
+
+\begin{algorithmic}[1]
+\Function{Query\_Intersect}{$M_{a\alpha}$,  $M_{\alpha{}b}$}
+	\State $M_{a\alpha{}b} \leftarrow \emptyset$ \Comment{Result list is initially empty}
+	\State $I \leftarrow |M_{a\alpha}|$ \Comment{Number of instances of pattern $a\alpha$ in the source corpus}
+	\State $J \leftarrow |M_{\alpha{}b}|$  \Comment{Number of instances of pattern $\alpha{}b$ in the source corpus}
+	\State $j \leftarrow 0$
+	\State $i \leftarrow 0$
+	
+	\While {$i<I$ and $j<J$}
+		\State \Comment{Ignore elements in $M_{\alpha{}b}$ that are}
+		\State \Comment{too distant to intersect with $M_{a\alpha}[i]$}
+		\While {$j<J$ and $M_{a\alpha}[i] \ddot{>} M_{\alpha{}b}[j]$}
+			\State $j \leftarrow j + 1$ 
+		\EndWhile
+	
+		\State  \Comment{Verify that the corpus index}
+		\State \Comment{for the first terminal symbol}
+		\State $k \leftarrow i$ \Comment{in pattern $\alpha{}b$ is the same }
+		%\State \Comment{is the same as the corpus index for the first terminal symbol in pattern $\alpha{}b$ at }
+		\While {$M_{\alpha{}b}[i]_{,1}$ = $M_{\alpha{}b}[k]_{,1}$} \Comment{for locations $M_{\alpha{}b}[i]$ and $M_{\alpha{}b}[k]$}
+			\State $\ell \leftarrow j$
+			\While {$\ell < J$ and not $M_{a\alpha}[i] \ddot{<} M_{\alpha{}b}[\ell]$}
+				\If {$M_{a\alpha}[i] \ddot{=} M_{\alpha{}b}[\ell]$}
+					\State {Intersect $M_{a\alpha}[i]$ with $M_{\alpha{}b}[\ell]$ and append result to  $M_{a\alpha{}b}$}
+				\EndIf
+				\State $\ell \leftarrow \ell + 1$ \Comment{Proceed to next element in $M_{\alpha{}b}$}
+			\EndWhile
+			\State {$i \leftarrow i + 1$} \Comment{Proceed to next element in $M_{a\alpha}$}
+		\EndWhile
+	\EndWhile
+	\State \Return {$M_{a\alpha{}b}$}
+\EndFunction
+\end{algorithmic}
+
+\noindent {\bf Result:} Sorted list of corpus locations matching source language pattern $a\alpha{}b$ : $M_{a\alpha{}b}$
+	
+
+
+%\end{algorithm}
+\caption{Query intersection algorithm implemented in Joshua. This algorithm is adapted from a corrected version (Lopez, p.c.) of query intersection {\protect \cite{Lopez2008}}.}
 \end{figure}
+
 
 
 \section{Using Joshua}
@@ -216,6 +264,7 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 <project name="Joshua Grammar Extraction in Ant" default="extract">
     
 	<property name="classes.dir" value="bin"/>
+	<property name="experiment.dir" value="/path/to/my/data"/>
  	
 	<taskdef name="extractRules" 
 		classname="joshua.prefix_tree.ExtractRules" 
@@ -230,10 +279,10 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 			 into memory-mapped files">
 		
 		<compileJosh
-			sourceCorpus="/path/to/source.txt"
-			targetCorpus="/path/to/target.txt"
-			alignments="/path/to/align.txt"
-			outputDir="/path/to/model.josh"
+			sourceCorpus="${experiment.dir}/source.txt"
+			targetCorpus="${experiment.dir}/target.txt"
+			alignments="${experiment.dir}/align.txt"
+			outputDir="${experiment.dir}/model.josh"
 		/>
 	</target>
 	
@@ -242,15 +291,15 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 			from a compiled parallel corpus">
 		
 		<extractRules 
-			joshDir="/path/to/model.josh" 
-			testFile="/path/to/target-test.txt" 
-			outputFile="/path/to/test-set-specific.grammar"
+			joshDir="${experiment.dir}/model.josh" 
+			testFile="${experiment.dir}/target-test.txt" 
+			outputFile="${experiment.dir}/test-set-specific.grammar"
 		/>    
 	</target>
 	
 </project>
 \end{verbatimtab}
-\caption{Sample Apache Ant build file defining how to extract a translation grammar from an aligned parallel corpus.}
+\caption{Sample Apache Ant build file defining how to extract a translation grammar from an aligned parallel corpus. This example assumes that the files {\tt source.txt}, {\tt target.txt}, {\tt align.txt} and {\tt target-test.txt} already exist in the directory specified in the {\tt experiment.dir} variable. Running ant with this file will create the directory {\tt model.josh} and extract {\tt test-set-specific.grammar}.}
 \end{figure}
 
 
@@ -270,18 +319,18 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 \begin{figure}
 \begin{description}
 
-	\item[maxPhraseSpan] Defines the maximum span (in the source corpus) of any extracted SCFG rule. Default value is "10".
+	\item[maxPhraseSpan] Defines the maximum span (in the source corpus) of any extracted SCFG rule. Default value is ``10".
 
-	\item[maxPhraseLength] Defines the maximum number of tokens (terminals plus nonterminals) allowed in the source right-hand side of any extracted SCFG rule. Default value is "10".
+	\item[maxPhraseLength] Defines the maximum number of tokens (terminals plus nonterminals) allowed in the source right-hand side of any extracted SCFG rule. Default value is ``10".
 
-	\item[maxNonterminals] Defines the maximum number of nonterminal symbols allowed in the source side of any synchronous context-free rule extracted. Note: the number and type of nonterminals is the same in the source and target right-hand sides of a SCFG rule. Default value is "2".
+	\item[maxNonterminals] Defines the maximum number of nonterminal symbols allowed in the source side of any synchronous context-free rule extracted. Note: the number and type of nonterminals is the same in the source and target right-hand sides of a SCFG rule. Default value is ``2".
 
 	\item[cacheSize]
 
-	\item[encoding] Defines the file encoding scheme of the input test file and the output grammar file. Default value is "UTF-8".
+	\item[encoding] Defines the file encoding scheme of the input test file and the output grammar file. Default value is ``UTF-8".
 
 
-	\item[ruleSampleSize] When extracting SCFG rules for a given source language phrase, this option defines the number of instances of that source phrase will be sampled from the source training corpus for use in rule extraction. Default value is "300".
+	\item[ruleSampleSize] When extracting SCFG rules for a given source language phrase, this option defines the number of instances of that source phrase will be sampled from the source training corpus for use in rule extraction. Default value is ``300".
 	
 	\item[startingSentence] Defines the (1-based) sentence index in the test file where grammar extraction will begin. Default value is 1, indicating that a grammar will be extracted capable of translating sentences starting with the first sentence in the test file.
 
@@ -295,11 +344,11 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 \begin{figure}
 \begin{description}
 
-	\item[sentenceInitialX] Boolean option indicates whether rules with an initial source-side nonterminal should be extracted from phrases at the start of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is "true".
+	\item[sentenceInitialX] Boolean option indicates whether rules with an initial source-side nonterminal should be extracted from phrases at the start of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
 
-	\item[sentenceFinalX] Boolean option indicates whether rules with a final source-side nonterminal should be extracted from phrases at the end of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is "true".
+	\item[sentenceFinalX] Boolean option indicates whether rules with a final source-side nonterminal should be extracted from phrases at the end of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
 
-	\item[edgeXViolates] Boolean option indicates whether rules with an initial or final source-side nonterminal should be extracted when the source corpus phrase span for the rule, discounting the initial or final nonterminal, is already equal to the maximum phrase span value. Since nonterminals conceptually correspond to elided elements in the training corpus, setting this value to true allows phrases which have a longer phrase span than the maximum allowed phrase span. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is "true".
+	\item[edgeXViolates] Boolean option indicates whether rules with an initial or final source-side nonterminal should be extracted when the source corpus phrase span for the rule, discounting the initial or final nonterminal, is already equal to the maximum phrase span value. Since nonterminals conceptually correspond to elided elements in the training corpus, setting this value to true allows phrases which have a longer phrase span than the maximum allowed phrase span. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
 
 	\item[requireTightSpans] Boolean option indicates whether
 
@@ -310,9 +359,9 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 
 \begin{figure}
 \begin{description}
-	\item[keepTree] Boolean option indicates whether the prefix tree should persist from sentence to sentence during grammar extraction. If set to false, a new prefix tree will be created to process each sentence in the test file. Default value is "true".
+	\item[keepTree] Boolean option indicates whether the prefix tree should persist from sentence to sentence during grammar extraction. If set to false, a new prefix tree will be created to process each sentence in the test file. Default value is ``true".
 
-	\item[printPrefixTree] Boolean option indicates whether a representation of the prefix tree should be printed to standard output. If set to true, the tree will be printed after processing each sentence in the test file. Default value is "false".
+	\item[printPrefixTree] Boolean option indicates whether a representation of the prefix tree should be printed to standard output. If set to true, the tree will be printed after processing each sentence in the test file. Default value is ``false".
 
 \end{description}
 \caption{Additional options can be configured in the {\tt extractRules} target to affect behavior of the prefix tree.}
@@ -377,6 +426,10 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 % automatically. The \cite command is also modified so that it does not
 % collide with other articles. You process the bibliography by BibTeX in the
 % standard way and include it by:
+
+\section*{Acknowledgements}
+
+Special thanks to Adam Lopez for his help and advice, and for making the \LaTeX code for his algorithms available. 
 
 \bibliography{../bibliography}
 
