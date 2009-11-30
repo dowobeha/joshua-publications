@@ -1,0 +1,373 @@
+%% Sample file $Id: PBML_article.tex 92 2007-12-18 22:59:46Z zw $
+% 
+% This is a sample file for the PBML article.
+% 
+% The Prague Bulletin of Mathematical Linguistics is typeset by XeLaTeX. This
+% means that it is not guaranteed that the line and page breaks will come up
+% exactly the same in the final printed version as in your computer. It is
+% not required that you use XeLaTeX and the same fonts as will be used in the
+% journal but it is better to do so if you could. You can even used standard
+% LaTeX if XeLaTeX is not available on your computer.
+% 
+% 
+% Document class
+% ==============
+% 
+% The Prague Bulletin of Mathematical Linguistics uses its own document class.
+% You will thus start your document with:
+
+\documentclass{pbml}
+
+
+% If you process the document with XeLaTeX, fonts Minion Pro (distributed
+% with Adobe Reader) and DejaVu
+% (http://dejavu.sourceforge.net/wiki/index.php/Main_Page). If you do not
+% have these fonts and are not able to install them, you can instruct XeLaTeX
+% to use its default fonts by issuing \document[nofonts]{pbml}.
+% 
+% 
+% Packages
+% ========
+% 
+% I this place you will load required packages by the \usepackage commands.
+% Remember that other articles may require other packages and it is known
+% that some of them are in conflict. Please use only those packages that you
+% really need.
+% 
+% The following packages are loaded automatically by the class:
+% euler (for math fonts)
+% graphicx (for inclusion of images)
+% multicol (for multicolumn typesetting)
+% fullname (for bibliography citations)
+% 
+% If XeLaTeX is used, fontspec and xltxtra are loaded as well.
+% 
+% If standard LaTeX is used, the font encoding is switched to T1 and Latin
+% Modern fonts are used if they are found in your TeX distribution.
+% 
+% 
+% Graphics
+% ========
+% 
+% The most portable graphics package is tikz which is a front end to pgf.
+% This package is fully supported both in standard LaTeX and XeLaTeX.
+% PSTricks is not currently available for XeLaTeX. It will most probably be
+% supported in the future.
+% 
+% 
+% Fonts
+% =====
+% 
+% If you want to typset examples in east Asian scripts, you have to use
+% OpenType Unicode fonts that are freely redistributable and you have to
+% include them with your article. If you must use nonfree or non-Unicode
+% fonts, you must supply the examples as EPS or PDF with fonts embedded in
+% the files (as the required subset).
+% 
+% 
+% Definitions
+% ===========
+% 
+% You can use your own macros defined by \newcommand, \providecommand,
+% \DeclareRobustCommand (or even by \def) as well as environments declared by
+% \newenvironment. These definitions will automatically be local to your
+% article and will not clash with other parts of the journal. You can also
+% use \newcounter in order to declare your own counters.
+% 
+% 
+% Beginning of the document
+% =========================
+% 
+% Use the standard command:
+
+%\usepackage{newcite}
+
+%\newcommand{\url}{\begin{verbatim}URL\end{verbatim}}
+\usepackage{url}
+\usepackage{moreverb}
+
+\newcommand{\newcite}{\namecite}
+
+
+\begin{document}
+
+
+% Document title
+% ==============
+% 
+% Due to journal organization the article title and authors must be specified
+% AFTER \begin{document}. Give the article title:
+
+\title{Hierarchical Phrase-Based Grammar Extraction in Joshua}
+
+% You may optionally specify a subtitle:
+
+\subtitle{Suffix Arrays and Prefix Trees}
+
+% Now put the author names and adresses, one command for each authors. The
+% order of authors printed below the title will be the same as the order of
+% your commands:
+
+\author{firstname=Lane, surname=Schwartz,
+       address={University of Minnesota, Minneapolis}}
+
+
+% The braces are mandatory only if the value contains a comma as in the first
+% author's address but they never make any harm, you can safely put all
+% values into braces.
+% 
+% The title and authors' names are used in the running head. If they are
+% long, you should define short versions. These definitions are optional. You
+% define them only if they are needed. The example follows:
+
+\shorttitle{Short}
+\shortauthor{L. Schwartz}
+
+% Now print the title by:
+
+\maketitle
+
+
+% Abstract
+% ========
+% 
+% The abstract is placed within the "abstract" environment. It is a mandatory
+% part of the article.
+
+\begin{abstract}
+The abstract of the article...
+\end{abstract}
+
+
+% The body of the article
+% =======================
+
+\section{Introduction}
+
+Phrase-based model \cite{Koehn2003,Marcu2002,Och2004,Och1999}.
+
+Suffix arrays  \cite{Manber1990}. Suffix arrays have been shown to be useful in efficient natural language processing; \newcite{Yamamoto2001} show how suffix arrays can be used to efficiently calculate the term frequency and document frequency of every substring in a corpus \footnote{The source code for performing these calculations is available for download at \url{http://www.mibel.cs.tsukuba.ac.jp/~myama/tfdf/index.html}, and is reproduced as appendix material in \cite{Yamamoto2001}}.
+
+Extracting phrases \cite{Koehn2003,Kumar2006}.
+
+Example-based machine translation (EBMT) \cite{Nagao1981,Sato1990,Somers2003}. EBMT using efficient data structures for pattern matching \cite{Brown2004}. Recent implementation that uses suffix arrays in Cunei \cite{Phillips2009}.
+
+Suffix arrays for phrase-based model \newcite{Callison-Burch2005b} and \newcite{Zhang2005}. Extended by \cite{Lopez2008} to use deterministic sampling; this is necessary for the approach to integrate well with the minimum error rate training (MERT) procedure \cite{Och2003c} used to tune model parameters.
+
+Inversion transduction grammar (ITG) \cite{Wu1996}.
+
+Hierarchical phrase-based model introduced by \cite{Chiang2005,Chiang2007}.
+
+Suffix arrays for pattern matching for phrases with gaps \cite{Lopez2007}, described in more detail in \cite{Lopez2008}.
+
+Trie data structure \cite{Fredkin1960}.
+
+Tight versus loose extraction heuristic \cite{Ayan2006a}.
+
+
+
+\section{Related Work}
+
+Moses has suffix array \footnote{\url{http://sourceforge.net/projects/mosesdecoder}}.
+
+Joshua \cite{Joshua-WMT}\footnote{\url{http://sourceforge.net/projects/joshua}}.
+
+Cunei \cite{Phillips2009}\footnote{\url{http://sourceforge.net/projects/cunei}}.
+
+\section{Data Structures}
+
+\subsection{Symbol Table}
+
+\subsection{Suffix Array}
+
+\subsection{Prefix Tree with Suffix Links}
+
+\subsection{Memory Mapping}
+
+
+
+
+
+
+\section{Using Joshua}
+
+Grammar extraction using command line.
+
+Grammar extraction using Apache Ant \cite{ant1.7.1}.
+
+\begin{figure}
+\begin{verbatimtab}[4]
+<project name="Joshua Grammar Extraction in Ant" default="extract">
+    
+	<property name="classes.dir" value="bin"/>
+ 	
+	<taskdef name="extractRules" 
+		classname="joshua.prefix_tree.ExtractRules" 
+		classpath="${classes.dir}"/>
+	
+	<taskdef name="compileJosh" 
+		classname="joshua.corpus.suffix_array.Compile" 
+		classpath="${classes.dir}"/>
+	
+	<target name="compile" 
+		description="Compile aligned parallel corpus
+			 into memory-mapped files">
+		
+		<compileJosh
+			sourceCorpus="/path/to/source.txt"
+			targetCorpus="/path/to/target.txt"
+			alignments="/path/to/align.txt"
+			outputDir="/path/to/model.josh"
+		/>
+	</target>
+	
+	<target name="extract" 
+		description="Extract a translation grammar 
+			from a compiled parallel corpus">
+		
+		<extractRules 
+			joshDir="/path/to/model.josh" 
+			testFile="/path/to/target-test.txt" 
+			outputFile="/path/to/test-set-specific.grammar"
+		/>    
+	</target>
+	
+</project>
+\end{verbatimtab}
+\caption{Sample Apache Ant build file defining how to extract a translation grammar from an aligned parallel corpus.}
+\end{figure}
+
+
+\begin{figure}
+\begin{description}
+
+	\item[joshDir] Path to directory containing the binary files representing memory-mappable aligned parallel corpus.
+
+	\item[testFile] Path to plain text file containing a source language test file. The grammar extracted by {\tt extractRules} will be all of the rules required to translate the sentences in this test file.
+
+	\item[outputFile] Path where extracted grammar will be placed. This grammar will consist of all of the rules required to translate the sentences in the test file defined in the {\tt testFile} option.
+\end{description}
+\caption{Mandatory options must be configured in the {\tt extractRules} target.}
+\end{figure}
+
+
+\begin{figure}
+\begin{description}
+
+	\item[maxPhraseSpan] Defines the maximum span (in the source corpus) of any extracted SCFG rule. Default value is "10".
+
+	\item[maxPhraseLength] Defines the maximum number of tokens (terminals plus nonterminals) allowed in the source right-hand side of any extracted SCFG rule. Default value is "10".
+
+	\item[maxNonterminals] Defines the maximum number of nonterminal symbols allowed in the source side of any synchronous context-free rule extracted. Note: the number and type of nonterminals is the same in the source and target right-hand sides of a SCFG rule. Default value is "2".
+
+	\item[cacheSize]
+
+	\item[encoding] Defines the file encoding scheme of the input test file and the output grammar file. Default value is "UTF-8".
+
+
+	\item[ruleSampleSize] When extracting SCFG rules for a given source language phrase, this option defines the number of instances of that source phrase will be sampled from the source training corpus for use in rule extraction. Default value is "300".
+	
+	\item[startingSentence] Defines the (1-based) sentence index in the test file where grammar extraction will begin. Default value is 1, indicating that a grammar will be extracted capable of translating sentences starting with the first sentence in the test file.
+
+	\item[maxTestSentences] Defines the number of sentences in the test file over which grammar extraction will be performed. Default value is {\tt Integer.MAX\_VALUE}. For example, given a test file of 100 sentences, the options {\tt startingSentence="51"  maxTestSentences="25"} would cause grammar extraction to be performed over test sentences 51--75.
+
+\end{description}
+\caption{Options can be configured in the {\tt extractRules} target.}
+\end{figure}
+
+
+\begin{figure}
+\begin{description}
+
+	\item[sentenceInitialX] Boolean option indicates whether rules with an initial source-side nonterminal should be extracted from phrases at the start of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is "true".
+
+	\item[sentenceFinalX] Boolean option indicates whether rules with a final source-side nonterminal should be extracted from phrases at the end of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is "true".
+
+	\item[edgeXViolates] Boolean option indicates whether rules with an initial or final source-side nonterminal should be extracted when the source corpus phrase span for the rule, discounting the initial or final nonterminal, is already equal to the maximum phrase span value. Since nonterminals conceptually correspond to elided elements in the training corpus, setting this value to true allows phrases which have a longer phrase span than the maximum allowed phrase span. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is "true".
+
+	\item[requireTightSpans] Boolean option indicates whether
+
+\end{description}
+\caption{Options can be configured in the {\tt extractRules} target to make rule extraction behave like the Hiero suffix array rule extractor {\protect \cite{Lopez2008} } instead of the behaving according to the rule extraction originally defined in {\protect \newcite{Chiang2005}} .}
+\end{figure}
+
+
+\begin{figure}
+\begin{description}
+	\item[keepTree] Boolean option indicates whether the prefix tree should persist from sentence to sentence during grammar extraction. If set to false, a new prefix tree will be created to process each sentence in the test file. Default value is "true".
+
+	\item[printPrefixTree] Boolean option indicates whether a representation of the prefix tree should be printed to standard output. If set to true, the tree will be printed after processing each sentence in the test file. Default value is "false".
+
+\end{description}
+\caption{Additional options can be configured in the {\tt extractRules} target to affect behavior of the prefix tree.}
+\end{figure}
+
+
+
+\begin{figure}
+\begin{description}
+	\item[sourceFileName] Path to binary file containing integer-ized memory-mappable source language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/source.corpus}.
+
+	\item[targetFileName] Path to binary file containing integer-ized memory-mappable target language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/target.corpus}.
+
+	\item[alignmentsFileName] Path to binary file containing integer-ized memory-mappable source-to-target word alignments data. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/alignment.grids}. The format of this file is defined in {\tt joshua.corpus.alignment.AlignmentGrids\#writeExternal} and in the {\tt joshua.corpus.alignment.MemoryMappedAlignmentGrids} constructors.
+\end{description}
+\caption{Additional options can be configured in the {\tt extractRules} target. These options are normally set automatically as a result of setting the {\tt joshDir} option. They are listed here for completeness.}
+\end{figure}
+
+
+
+
+
+% 
+% The PBML class is modelled after the standard article class. This means
+% that you can use almost everything that is allowed in articles as described
+% in the textbooks of LaTeX. We support sectioning commands \section,
+% \subsection and \subsubsection. In addition to standard LaTeX we support
+% \subsection and \subsubsection with an empty title (i.e. just with empty
+% braces {} that must not even contain a space). Such subsections will be
+% automatically numbered and properly formatted.
+% 
+% 
+% Figures and tables
+% ==================
+% 
+% Use figure and table environments. The \caption command is redefined in
+% order to comply with the graphic design.
+% 
+% 
+% Inclusion of images and other files
+% ===================================
+% 
+% All files required for your articles must reside in the same directory. You
+% are allowed to use subdirectories only exceptionally. When loading the file
+% you must use a relative path, never the full path. Load the images by
+% \includegraphics and other files by \input, never use \include.
+% 
+% 
+% Cross references
+% ================
+% 
+% You can safely used \label, \ref and \pageref with any identifiers. These
+% macros are modified in order not to collide with identifiers in other
+% articles.
+% 
+% 
+% Bibliography
+% ============
+% 
+% You may either enter the bibliography manually, possibly making use of
+% \label and \ref, or use BibTeX. The bibliography style is set
+% automatically. The \cite command is also modified so that it does not
+% collide with other articles. You process the bibliography by BibTeX in the
+% standard way and include it by:
+
+\bibliography{../bibliography}
+
+
+% End of the article
+% ==================
+% 
+% The article must end with:
+
+\end{document}
