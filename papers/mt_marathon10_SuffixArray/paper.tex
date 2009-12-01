@@ -159,7 +159,7 @@ Suffix arrays are compact data structures which allow efficient pattern matching
 
 This paper implements the basic techniques described in \newcite{Lopez2008} for accessing using an aligned parallel corpus to extraction translation rules for an open source hierarchical machine translation system, Joshua \cite{Joshua-WMT}. The implementation described here enables users of Joshua to begin translating sentences using an aligned parallel corpus in lieu of a pre-extracted SCFG. This implementation can also be used during a pre-processing stage to extract an SCFG for a specific test set.
 
-The remainder of this paper is structured as follows. Section \ref{related-work} briefly overviews the grammar extraction mechanisms employed by other prominent open source machine translation systems. Section \ref{data-structures} reviews the data structures that are used for efficient run-time calculation of SCFG rules. Section \ref{algorithms} presents two core algorithms of this implementation that differ from those presented in \newcite{Lopez2008}. Finally, section \ref{using-joshua} provides details for configuring and running the Joshua grammar extraction tools.
+The remainder of this paper is structured as follows. Section \ref{related-work} briefly overviews the grammar extraction mechanisms employed by other prominent open source machine translation systems. Section \ref{data-structures} reviews the data structures and algorithms that are used for efficient run-time calculation of SCFG rules. Finally, section \ref{using-joshua} provides details for configuring and running the Joshua grammar extraction tools.
 
 
 \section{Related Work}
@@ -174,27 +174,31 @@ While \newcite{Callison-Burch2005b}, \newcite{Zhang2005}, and \newcite{Lopez2008
 \newcite{Lopez2008} provides a fast implementation of SCFG grammar extraction for Hiero which uses suffix arrays. This implementation allows Hiero to use an aligned parallel corpus at run-time in lieu of a pre-extracted SCFG. However, this implementation is not available as free open source software. Cunei \cite{Phillips2009}\footnote{\url{http://sourceforge.net/projects/cunei}} is a statistical open-source EBMT system that uses suffix arrays to extract relevant phrase pairs from an aligned parallel corpus at run-time. 
 
 
-\section{Data Structures}
+\section{Implementation: Data Structures and algorithms}
 \label{data-structures}
 
-\subsection{Symbol Table}
-
-\subsection{Suffix Array}
-
-\subsection{Prefix Tree with Suffix Links}
-
-\subsection{Memory Mapping}
 
 
-\section{Algorithms}
-\label{algorithms}
-
-\subsection{Caching}
-Discuss caching procedure
-
-\subsection{Query Intersection}
-\label{query-intersection}
-Discuss query intersect
+\begin{figure}
+\begin{algorithmic}[1]
+\Function{Compare\_Elements}{$index1$,  $index2$, $max$, $corpusEnd$}
+	\For {$i=0$; $i<max$; $i++$}
+		\If {$index1+i < corpusEnd$ and $index2+i > corpusEnd$}
+			\State \Return{$1$}
+		\ElsIf {$index2+i < corpusEnd$ and $index1+i>corpusEnd$}
+			\State \Return{$-1$}
+		\ElsIf {$corpus[index1+i]$ is lexicographically < $corpus[index2+i]$}
+			\State \Return {$-1$}
+		\ElsIf {$corpus[index1+i]$ is lexicographically > $corpus[index2+i]$}
+			\State \Return {$1$}
+		\EndIf
+	\EndFor
+	\State \Return {$0$}
+\EndFunction
+\end{algorithmic}
+\caption{}
+\label{sort}
+\end{figure}
 
 \begin{figure}
 %\begin{algorithm}
@@ -245,16 +249,26 @@ Discuss query intersect
 
 %\end{algorithm}
 \caption{Query intersection algorithm implemented in Joshua. This algorithm is adapted from a corrected version (Lopez, p.c.) of query intersection {\protect \cite{Lopez2008}}.}
+\label{query}
 \end{figure}
+
+
+To extract hierarchical translation rules at run-time, the decoder must have access to the aligned parallel corpus. Internally, Joshua treats all source and target words as 32-bit integers. Each unique string that is encountered is assigned a unique integer. A hash map maintains the mapping from string to integer, while a corresponding list of strings maintains the mapping from integer back to string; together, these data structures comprise the {\bf symbol table}.
+
+A corpus can be considered a simple list whose size is equal to the number of words in the corpus. Using this approach with the symbol table, Joshua stores the source corpus as an integer array. An auxiliary array, with size equal to the number of sentences in the source corpus, is maintained; elements in this auxiliary sentence array indicate the corpus index where each sentence begins. The target corpus is likewise represented by a {\bf corpus array} and corresponding sentence array.
+
+Once the source and target corpus arrays are available, the corresponding {\bf suffix array}s can be constructed. Given a corpus array $c$ and a symbol table, a second array is created of equal size to the corpus array. This array $s$ is initialized such that $s[x] = x]$. Where each integer in $c$ represents a word string, each integer in $s$ represents an index into $c$. The contents of $s$ are sorted, using the element comparison function defined in figure \ref{sort}. After sorting, the indices of all instances in the corpus of any given phrase are located in a contiguous segment in the suffix array $s$.
+
+While a phrase-based decoder can simply look up any required phrase in a suffix array, hierarchical decoders must deal with discontinuous phrases that include gaps. To deal with such phrases, \namecite{Lopez2008} defines an incremental algorithm for constructing a specialized trie \cite{Fredkin1960} to represent the SCFG translation grammar. Given a source sentence, this algorithm constructs a {\bf prefix tree with suffix links} by first examining all possible contiguous source phrases, and uses the source suffix array to look up translations for contiguous phrases. Hierarchical phrases that consist of a contiguous phrase preceded or followed by a single nonterminal $X$ can be constructed directly from the corresponding contiguous phrase. In this manner, the tree is gradually constructed into a grammar containing contiguous phrases and simple hierarchical phrases. 
+
+More complex hierarchical phrases are constructed according to the {\sc Query\_Intersect} function in figure \ref{query}. This function takes two smaller phrases $a\alpha$ and $\alpha{}b$, along with the list of indices where these phrases are located. These two lists can be efficiently processed to determine the locations where the two phrases intersect to form the more complex phrase $a\alpha{}b$. In this way, all source hierarchical phrases can be located.
+
+Each node in the prefix tree corresponds to a unique source phrase; each node stores the complete list of all indices in the source corpus where that node's phrase occurs. These locations are used in conjunction with the target corpus array and the word alignment data to construct SCFG translation rules.
 
 
 
 \section{Using Joshua}
 \label{using-joshua}
-
-Grammar extraction using command line.
-
-Grammar extraction using Apache Ant \cite{ant1.7.1}.
 
 \begin{figure}
 \begin{verbatimtab}[4]
@@ -298,6 +312,12 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 \end{verbatimtab}
 \caption{Sample Apache Ant build file defining how to extract a translation grammar from an aligned parallel corpus. This example assumes that the files {\tt source.txt}, {\tt target.txt}, {\tt align.txt} and {\tt target-test.txt} already exist in the directory specified in the {\tt experiment.dir} variable. Running ant with this file will create the directory {\tt model.josh} and extract {\tt test-set-specific.grammar}.}
 \end{figure}
+
+
+Grammar extraction using command line.
+
+Grammar extraction using Apache Ant \cite{ant1.7.1}.
+
 
 
 \begin{figure}
