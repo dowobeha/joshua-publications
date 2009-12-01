@@ -149,37 +149,33 @@ The abstract of the article...
 
 \section{Introduction}
 
-Phrase-based model \cite{Koehn2003,Marcu2002,Och2004,Och1999}.
+Significant recent research in statistical machine translation has focused on modeling translation based on contiguous strings of words, called {\textit phrases}, in the source language and corresponding phrases in the target language. Such phrase-based models \cite{Koehn2003,Marcu2002,Och2004,Och1999} have been very successful, and state-of-the-art machine translation systems are commonly based on these approaches.
 
-Suffix arrays  \cite{Manber1990}. Suffix arrays have been shown to be useful in efficient natural language processing; \newcite{Yamamoto2001} show how suffix arrays can be used to efficiently calculate the term frequency and document frequency of every substring in a corpus \footnote{The source code for performing these calculations is available for download at \url{http://www.mibel.cs.tsukuba.ac.jp/~myama/tfdf/index.html}, and is reproduced as appendix material in \cite{Yamamoto2001}}.
+A critical component in phrase-based translation is the estimation of a translation model from an aligned parallel text. The phrase table required for these models is typically extracted prior to translation in a preprocessing stage \cite{Koehn2003,Kumar2006}. This approach is found in the training scripts provided as part of the open source phrase-based Moses toolkit \cite{Moses}; the scripts perform this task, calculating a translation model from a sentence-aligned parallel corpus. Hierarchical phrase-based translation \cite{Chiang2005} extends phrase-based translation by allowing phrases with gaps, modeled as a synchronous context-free grammar (SCFG). The original Hiero implementation \cite{Chiang2007} trains its SFCG translation model in a similar preprocessing stage.
 
-Extracting phrases \cite{Koehn2003,Kumar2006}.
+By contrast, example-based machine translation (EBMT) approaches \cite{Nagao1981,Sato1990,Somers2003} are notable for their use of aligned parallel corpora at run time. EBMT research has successfully explored how various efficient data structures for pattern matching can be leveraged to allow the decoder to access at decode-time portions of the training text that are most relevant to the text currently being translated. The Cunei machine translation toolkit \cite{Phillips2009} is an open-source, statistical EBMT system that follows this approach.
+ 
+Suffix arrays are compact data structures which allow efficient pattern matching to be performed over all text in a corpus \cite{Manber1990}.  \newcite{Callison-Burch2005b} and \newcite{Zhang2005} showed that suffix arrays can be adapted to allow phrase-based translation to calculate translation options for the translation model at run-time. For a given source phrase, this approach selected a random sample of instances of that phrase in the source corpus. By accessing the target corpus and word alignment data, translation options and associated model parameters can be calculated at run-time. \newcite{Lopez2007} showed that hierarchical phrases can also by obtained at run time using a suffix array. This work incorporated a trie-based grammar mechanism \cite{Fredkin1960} and used deterministic, rather than random, sampling to allow predictable integration with the minimum error rate training (MERT) procedure \cite{Och2003c} used to tune model parameters.
 
-Example-based machine translation (EBMT) \cite{Nagao1981,Sato1990,Somers2003}. EBMT using efficient data structures for pattern matching \cite{Brown2004}. Recent implementation that uses suffix arrays in Cunei \cite{Phillips2009}.
+This paper implements the basic techniques described in \newcite{Lopez2008} for accessing using an aligned parallel corpus to extraction translation rules for an open source hierarchical machine translation system, Joshua \cite{Joshua-WMT}. The implementation described here enables users of Joshua to begin translating sentences using an aligned parallel corpus in lieu of a pre-extracted SCFG. This implementation can also be used during a pre-processing stage to extract an SCFG for a specific test set.
 
-Suffix arrays for phrase-based model \newcite{Callison-Burch2005b} and \newcite{Zhang2005}. Extended by \cite{Lopez2008} to use deterministic sampling; this is necessary for the approach to integrate well with the minimum error rate training (MERT) procedure \cite{Och2003c} used to tune model parameters.
-
-Inversion transduction grammar (ITG) \cite{Wu1996}.
-
-Hierarchical phrase-based model introduced by \cite{Chiang2005,Chiang2007}.
-
-Suffix arrays for pattern matching for phrases with gaps \cite{Lopez2007}, described in more detail in \cite{Lopez2008}.
-
-Trie data structure \cite{Fredkin1960}.
-
-Tight versus loose extraction heuristic \cite{Ayan2006a}.
-
+The remainder of this paper is structured as follows. Section \ref{related-work} briefly overviews the grammar extraction mechanisms employed by other prominent open source machine translation systems. Section \ref{data-structures} reviews the data structures that are used for efficient run-time calculation of SCFG rules. Section \ref{algorithms} presents two core algorithms of this implementation that differ from those presented in \newcite{Lopez2008}. Finally, section \ref{using-joshua} provides details for configuring and running the Joshua grammar extraction tools.
 
 
 \section{Related Work}
+\label{related-work}
 
-Moses has suffix array \footnote{\url{http://sourceforge.net/projects/mosesdecoder}}.
+While example-based machine translation has long used corpus information at run-time, statistical phrase-based approaches typically include a pre-processing stage where an aligned parallel corpus is split into phrases, and parameter values are calculated for each phrase using simple relative frequency estimates.
 
-Joshua \cite{Joshua-WMT}\footnote{\url{http://sourceforge.net/projects/joshua}}.
+The Pharaoh \cite{Koehn2004} and Moses \cite{Moses} phrase-based decoders take this approach, providing users with scripts to estimate a translation model from a sentence-aligned parallel corpus. Similarly, the Hiero \cite{Chiang2007} and syntax-augmented machine translation (SAMT) \cite{samt2006} approaches each require a pre-processing stage to extract an SCFG-based translation model. Recent work in Moses (Huang and Koehn, p.c.) provides similar functionality for extracting an SCFG-based translation model during a pre-processing stage.
 
-Cunei \cite{Phillips2009}\footnote{\url{http://sourceforge.net/projects/cunei}}.
+While \newcite{Callison-Burch2005b}, \newcite{Zhang2005}, and \newcite{Lopez2008} all describe implementations of traditional phrase-based models extended to take advantage of suffix array data structures to extract phrase translation options at run-time, generally available open-source implementations of these are not available. Preliminary work has investigated integrating these techniques into Moses, but this work is not complete\footnote{Much of this preliminary work was conducted by Chris Callison-Burch, Andreas Eisele, Juri Ganitkevitch, and Adam Lopez at the Second Machine Translation Marathon in 2008.}. 
+
+\newcite{Lopez2008} provides a fast implementation of SCFG grammar extraction for Hiero which uses suffix arrays. This implementation allows Hiero to use an aligned parallel corpus at run-time in lieu of a pre-extracted SCFG. However, this implementation is not available as free open source software. Cunei \cite{Phillips2009}\footnote{\url{http://sourceforge.net/projects/cunei}} is a statistical open-source EBMT system that uses suffix arrays to extract relevant phrase pairs from an aligned parallel corpus at run-time. 
+
 
 \section{Data Structures}
+\label{data-structures}
 
 \subsection{Symbol Table}
 
@@ -191,7 +187,7 @@ Cunei \cite{Phillips2009}\footnote{\url{http://sourceforge.net/projects/cunei}}.
 
 
 \section{Algorithms}
-
+\label{algorithms}
 
 \subsection{Caching}
 Discuss caching procedure
@@ -254,6 +250,7 @@ Discuss query intersect
 
 
 \section{Using Joshua}
+\label{using-joshua}
 
 Grammar extraction using command line.
 
