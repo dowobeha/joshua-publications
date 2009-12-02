@@ -140,7 +140,7 @@
 % part of the article.
 
 \begin{abstract}
-The abstract of the article...
+While example-based machine translation has long used corpus information at run-time, statistical phrase-based approaches typically include a pre-processing stage where an aligned parallel corpus is split into phrases, and parameter values are calculated for each phrase using simple relative frequency estimates. This paper describes an open source implementation of the crucial algorithms presented in \cite{Lopez2008} which allow direct run-time calculation of SCFG translation rules in Joshua.
 \end{abstract}
 
 
@@ -149,7 +149,7 @@ The abstract of the article...
 
 \section{Introduction}
 
-Significant recent research in statistical machine translation has focused on modeling translation based on contiguous strings of words, called {\textit phrases}, in the source language and corresponding phrases in the target language. Such phrase-based models \cite{Koehn2003,Marcu2002,Och2004,Och1999} have been very successful, and state-of-the-art machine translation systems are commonly based on these approaches.
+Significant recent research in statistical machine translation has focused on modeling translation based on contiguous strings of words, called {\it phrases}, in the source language and corresponding phrases in the target language. Such phrase-based models \cite{Koehn2003,Marcu2002,Och2004,Och1999} have been very successful, and state-of-the-art machine translation systems are commonly based on these approaches.
 
 A critical component in phrase-based translation is the estimation of a translation model from an aligned parallel text. The phrase table required for these models is typically extracted prior to translation in a preprocessing stage \cite{Koehn2003,Kumar2006}. This approach is found in the training scripts provided as part of the open source phrase-based Moses toolkit \cite{Moses}; the scripts perform this task, calculating a translation model from a sentence-aligned parallel corpus. Hierarchical phrase-based translation \cite{Chiang2005} extends phrase-based translation by allowing phrases with gaps, modeled as a synchronous context-free grammar (SCFG). The original Hiero implementation \cite{Chiang2007} trains its SFCG translation model in a similar preprocessing stage.
 
@@ -171,10 +171,10 @@ The Pharaoh \cite{Koehn2004} and Moses \cite{Moses} phrase-based decoders take t
 
 While \newcite{Callison-Burch2005b}, \newcite{Zhang2005}, and \newcite{Lopez2008} all describe implementations of traditional phrase-based models extended to take advantage of suffix array data structures to extract phrase translation options at run-time, generally available open-source implementations of these are not available. Preliminary work has investigated integrating these techniques into Moses, but this work is not complete\footnote{Much of this preliminary work was conducted by Chris Callison-Burch, Andreas Eisele, Juri Ganitkevitch, and Adam Lopez at the Second Machine Translation Marathon in 2008.}. 
 
-\newcite{Lopez2008} provides a fast implementation of SCFG grammar extraction for Hiero which uses suffix arrays. This implementation allows Hiero to use an aligned parallel corpus at run-time in lieu of a pre-extracted SCFG. However, this implementation is not available as free open source software. Cunei \cite{Phillips2009}\footnote{\url{http://sourceforge.net/projects/cunei}} is a statistical open-source EBMT system that uses suffix arrays to extract relevant phrase pairs from an aligned parallel corpus at run-time. 
+\newcite{Lopez2008} provides a fast implementation of SCFG grammar extraction for Hiero which uses suffix arrays. This implementation allows Hiero to use an aligned parallel corpus at run-time in lieu of a pre-extracted SCFG. However, this implementation is not available as generally available open source software. Cunei \cite{Phillips2009}\footnote{\url{http://sourceforge.net/projects/cunei}} is a statistical open-source EBMT system that uses suffix arrays to extract relevant phrase pairs from an aligned parallel corpus at run-time. 
 
 
-\section{Implementation: Data Structures and algorithms}
+\section{Implementation: Data Structures and Algorithms}
 \label{data-structures}
 
 
@@ -208,6 +208,8 @@ While \newcite{Callison-Burch2005b}, \newcite{Zhang2005}, and \newcite{Lopez2008
 \noindent {\bf Input:} Sorted list of corpus locations matching source language pattern $a\alpha$:  $M_{a\alpha}$
 
 \noindent {\bf Input:} Sorted list of corpus locations matching source language pattern $\alpha{}b$:  $M_{\alpha{}b}$ 
+
+\ \\ 
 
 \begin{algorithmic}[1]
 \Function{Query\_Intersect}{$M_{a\alpha}$,  $M_{\alpha{}b}$}
@@ -243,6 +245,8 @@ While \newcite{Callison-Burch2005b}, \newcite{Zhang2005}, and \newcite{Lopez2008
 \EndFunction
 \end{algorithmic}
 
+\ \\
+
 \noindent {\bf Result:} Sorted list of corpus locations matching source language pattern $a\alpha{}b$ : $M_{a\alpha{}b}$
 	
 
@@ -257,7 +261,7 @@ To extract hierarchical translation rules at run-time, the decoder must have acc
 
 A corpus can be considered a simple list whose size is equal to the number of words in the corpus. Using this approach with the symbol table, Joshua stores the source corpus as an integer array. An auxiliary array, with size equal to the number of sentences in the source corpus, is maintained; elements in this auxiliary sentence array indicate the corpus index where each sentence begins. The target corpus is likewise represented by a {\bf corpus array} and corresponding sentence array.
 
-Once the source and target corpus arrays are available, the corresponding {\bf suffix array}s can be constructed. Given a corpus array $c$ and a symbol table, a second array is created of equal size to the corpus array. This array $s$ is initialized such that $s[x] = x]$. Where each integer in $c$ represents a word string, each integer in $s$ represents an index into $c$. The contents of $s$ are sorted, using the element comparison function defined in figure \ref{sort}. After sorting, the indices of all instances in the corpus of any given phrase are located in a contiguous segment in the suffix array $s$.
+Once the source and target corpus arrays are available, the corresponding {\bf suffix array}s can be constructed. Given a corpus array $c$ and a symbol table, a second array is created of equal size to the corpus array. This array $s$ is initialized such that $s[x] = x$. Where each integer in $c$ represents a word string, each integer in $s$ represents an index into $c$. The contents of $s$ are sorted, using the element comparison function defined in figure \ref{sort}. After sorting, the indices of all instances in the corpus of any given phrase are located in a contiguous segment in the suffix array $s$.
 
 While a phrase-based decoder can simply look up any required phrase in a suffix array, hierarchical decoders must deal with discontinuous phrases that include gaps. To deal with such phrases, \namecite{Lopez2008} defines an incremental algorithm for constructing a specialized trie \cite{Fredkin1960} to represent the SCFG translation grammar. Given a source sentence, this algorithm constructs a {\bf prefix tree with suffix links} by first examining all possible contiguous source phrases, and uses the source suffix array to look up translations for contiguous phrases. Hierarchical phrases that consist of a contiguous phrase preceded or followed by a single nonterminal $X$ can be constructed directly from the corresponding contiguous phrase. In this manner, the tree is gradually constructed into a grammar containing contiguous phrases and simple hierarchical phrases. 
 
@@ -265,12 +269,15 @@ More complex hierarchical phrases are constructed according to the {\sc Query\_I
 
 Each node in the prefix tree corresponds to a unique source phrase; each node stores the complete list of all indices in the source corpus where that node's phrase occurs. These locations are used in conjunction with the target corpus array and the word alignment data to construct SCFG translation rules.
 
+% Caching
+Ideally, once translation rules have been extracted for a given source phrase, those rules would be stored and not calculated again. Unfortunately, memory constraints typically dictate that not all rules are stored. Rather than storing the translation rules for a given source phrase at the corresponding node in the prefix tree, a single least-recently-used (LRU) cache is maintained. This cache maps from source phrase to the corresponding set of translation rules. 
+
+% Memory mapping
+Another technique used to save memory is the option of using memory-mapped data structures. Memory-mapped version of the corpus array, suffix array, and alignment grids data structures are implemented and used by default.
 
 
-\section{Using Joshua}
-\label{using-joshua}
 
-\begin{figure}
+\begin{figure}[hptb]
 \begin{verbatimtab}[4]
 <project name="Joshua Grammar Extraction in Ant" default="extract">
     
@@ -311,91 +318,22 @@ Each node in the prefix tree corresponds to a unique source phrase; each node st
 </project>
 \end{verbatimtab}
 \caption{Sample Apache Ant build file defining how to extract a translation grammar from an aligned parallel corpus. This example assumes that the files {\tt source.txt}, {\tt target.txt}, {\tt align.txt} and {\tt target-test.txt} already exist in the directory specified in the {\tt experiment.dir} variable. Running ant with this file will create the directory {\tt model.josh} and extract {\tt test-set-specific.grammar}.}
-\end{figure}
-
-
-Grammar extraction using command line.
-
-Grammar extraction using Apache Ant \cite{ant1.7.1}.
-
-
-
-\begin{figure}
-\begin{description}
-
-	\item[joshDir] Path to directory containing the binary files representing memory-mappable aligned parallel corpus.
-
-	\item[testFile] Path to plain text file containing a source language test file. The grammar extracted by {\tt extractRules} will be all of the rules required to translate the sentences in this test file.
-
-	\item[outputFile] Path where extracted grammar will be placed. This grammar will consist of all of the rules required to translate the sentences in the test file defined in the {\tt testFile} option.
-\end{description}
-\caption{Mandatory options must be configured in the {\tt extractRules} target.}
-\end{figure}
-
-
-\begin{figure}
-\begin{description}
-
-	\item[maxPhraseSpan] Defines the maximum span (in the source corpus) of any extracted SCFG rule. Default value is ``10".
-
-	\item[maxPhraseLength] Defines the maximum number of tokens (terminals plus nonterminals) allowed in the source right-hand side of any extracted SCFG rule. Default value is ``10".
-
-	\item[maxNonterminals] Defines the maximum number of nonterminal symbols allowed in the source side of any synchronous context-free rule extracted. Note: the number and type of nonterminals is the same in the source and target right-hand sides of a SCFG rule. Default value is ``2".
-
-	\item[cacheSize]
-
-	\item[encoding] Defines the file encoding scheme of the input test file and the output grammar file. Default value is ``UTF-8".
-
-
-	\item[ruleSampleSize] When extracting SCFG rules for a given source language phrase, this option defines the number of instances of that source phrase will be sampled from the source training corpus for use in rule extraction. Default value is ``300".
-	
-	\item[startingSentence] Defines the (1-based) sentence index in the test file where grammar extraction will begin. Default value is 1, indicating that a grammar will be extracted capable of translating sentences starting with the first sentence in the test file.
-
-	\item[maxTestSentences] Defines the number of sentences in the test file over which grammar extraction will be performed. Default value is {\tt Integer.MAX\_VALUE}. For example, given a test file of 100 sentences, the options {\tt startingSentence="51"  maxTestSentences="25"} would cause grammar extraction to be performed over test sentences 51--75.
-
-\end{description}
-\caption{Options can be configured in the {\tt extractRules} target.}
-\end{figure}
-
-
-\begin{figure}
-\begin{description}
-
-	\item[sentenceInitialX] Boolean option indicates whether rules with an initial source-side nonterminal should be extracted from phrases at the start of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
-
-	\item[sentenceFinalX] Boolean option indicates whether rules with a final source-side nonterminal should be extracted from phrases at the end of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
-
-	\item[edgeXViolates] Boolean option indicates whether rules with an initial or final source-side nonterminal should be extracted when the source corpus phrase span for the rule, discounting the initial or final nonterminal, is already equal to the maximum phrase span value. Since nonterminals conceptually correspond to elided elements in the training corpus, setting this value to true allows phrases which have a longer phrase span than the maximum allowed phrase span. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
-
-	\item[requireTightSpans] Boolean option indicates whether
-
-\end{description}
-\caption{Options can be configured in the {\tt extractRules} target to make rule extraction behave like the Hiero suffix array rule extractor {\protect \cite{Lopez2008} } instead of the behaving according to the rule extraction originally defined in {\protect \newcite{Chiang2005}} .}
-\end{figure}
-
-
-\begin{figure}
-\begin{description}
-	\item[keepTree] Boolean option indicates whether the prefix tree should persist from sentence to sentence during grammar extraction. If set to false, a new prefix tree will be created to process each sentence in the test file. Default value is ``true".
-
-	\item[printPrefixTree] Boolean option indicates whether a representation of the prefix tree should be printed to standard output. If set to true, the tree will be printed after processing each sentence in the test file. Default value is ``false".
-
-\end{description}
-\caption{Additional options can be configured in the {\tt extractRules} target to affect behavior of the prefix tree.}
+\label{ant-file}
 \end{figure}
 
 
 
-\begin{figure}
-\begin{description}
-	\item[sourceFileName] Path to binary file containing integer-ized memory-mappable source language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/source.corpus}.
 
-	\item[targetFileName] Path to binary file containing integer-ized memory-mappable target language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/target.corpus}.
+%\begin{figure}
+%\begin{description}
+%	\item[sourceFileName] Path to binary file containing integer-ized memory-mappable source language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/source.corpus}.
 
-	\item[alignmentsFileName] Path to binary file containing integer-ized memory-mappable source-to-target word alignments data. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/alignment.grids}. The format of this file is defined in {\tt joshua.corpus.alignment.AlignmentGrids\#writeExternal} and in the {\tt joshua.corpus.alignment.MemoryMappedAlignmentGrids} constructors.
-\end{description}
-\caption{Additional options can be configured in the {\tt extractRules} target. These options are normally set automatically as a result of setting the {\tt joshDir} option. They are listed here for completeness.}
-\end{figure}
+%	\item[targetFileName] Path to binary file containing integer-ized memory-mappable target language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/target.corpus}.
+
+%	\item[alignmentsFileName] Path to binary file containing integer-ized memory-mappable source-to-target word alignments data. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/alignment.grids}. The format of this file is defined in {\tt joshua.corpus.alignment.AlignmentGrids\#writeExternal} and in the {\tt joshua.corpus.alignment.MemoryMappedAlignmentGrids} constructors.
+%\end{description}
+%\caption{Additional options can be configured in the {\tt extractRules} target. These options are normally set automatically as a result of setting the {\tt joshDir} option. They are listed here for completeness.}
+%\end{figure}
 
 
 
@@ -443,6 +381,103 @@ Grammar extraction using Apache Ant \cite{ant1.7.1}.
 % automatically. The \cite command is also modified so that it does not
 % collide with other articles. You process the bibliography by BibTeX in the
 % standard way and include it by:
+
+
+\section{Using Joshua}
+\label{using-joshua}
+
+Given a word-aligned parallel corpus, the first step in extracting a grammar, either at run-time or during a pre-processing stage, is to compile the memory-mappable data structures to binary files on disk. The {\tt joshua.corpus.suffix\_array.Compile} program takes four parameters: source corpus text file, target corpus text file, word alignments text file, and an output directory path. This program may be run directly, or may be accessed as an Apache Ant task (see figure \ref{ant-file}). The output directory, by convention, is named with the suffix .josh; this directory will contain binary representations of the symbol table, source and target corpus arrays, and source and target suffix arrays. 
+
+Once these binary files have been constructed into a .josh directory, the decoder can be configured to extract translation rules directly at run-time. To run the decoder in this mode, specify the .josh directory in the {\tt tm\_file=$\ldots$} line of the Joshua configuration file. 
+
+It is often useful (especially during MERT) to explicitly extract a test-set specific grammar in a pre-processing stage. The {\tt joshua.prefix\_tree.ExtractRules} program performs this task. When run directly, this program accepts either three arguments (a compiled .josh directory, file name for grammar to extract, and test file) or five arguments (source corpus text file, target corpus text file, word alignments text file, file name for grammar to extract, and test file). This program can also be accessed as an Apache Ant task (see figure \ref{ant-file}). The following subsections document the mandatory and optional parameters that can be passed to this program through the {\tt extractRules} ant task.
+
+\subsection{Mandatory parameters}
+%\begin{figure}
+\begin{description}
+
+	\item[testFile] Path to plain text file containing a source language test file. The grammar extracted by {\tt extractRules} will be all of the rules required to translate the sentences in this test file.
+
+	\item[outputFile] Path where extracted grammar will be placed. This grammar will consist of all of the rules required to translate the sentences in the test file defined in the {\tt testFile} option.
+
+	\item[joshDir] Path to directory containing the binary files representing memory-mappable aligned parallel corpus.
+
+\end{description}
+
+The following parameters may be specified instead of the {\tt joshDir} parameter.
+	
+\begin{description}
+	\item[sourceFileName] Path to text file containing source corpus. %this value is automatically set. Otherwise, this  to  Path to binary file containing integer-ized memory-mappable source language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/source.corpus}.
+
+	\item[targetFileName] Path to text file containing target corpus. 
+
+	%\item[targetFileName] Path to binary file containing integer-ized memory-mappable target language training corpus. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/target.corpus}.
+
+	\item[alignmentsFileName]  Path to text file containing word alignment data. 
+
+	%\item[alignmentsFileName] Path to binary file containing integer-ized memory-mappable source-to-target word alignments data. When selected, the {\tt joshDir} option sets the value of this option to {\tt joshDir/alignment.grids}. The format of this file is defined in {\tt joshua.corpus.alignment.AlignmentGrids\#writeExternal} and in the {\tt joshua.corpus.alignment.MemoryMappedAlignmentGrids} constructors.
+
+	
+\end{description}
+%\caption{Mandatory options must be configured in the {\tt extractRules} target.}
+%\end{figure}
+
+
+\subsection{Optional parameters}
+%\begin{figure}
+\begin{description}
+
+	\item[maxPhraseSpan] Defines the maximum span (in the source corpus) of any extracted SCFG rule. Default value is ``10".
+
+	\item[maxPhraseLength] Defines the maximum number of tokens (terminals plus nonterminals) allowed in the source right-hand side of any extracted SCFG rule. Default value is ``10".
+
+	\item[maxNonterminals] Defines the maximum number of nonterminal symbols allowed in the source side of any synchronous context-free rule extracted. Note: the number and type of nonterminals is the same in the source and target right-hand sides of a SCFG rule. Default value is ``2".
+
+	\item[cacheSize] Maximum number of source phrases for which translation rules will be maintained in the least-recently-used (LRU) cache.
+
+	\item[encoding] Defines the file encoding scheme of the input test file and the output grammar file. Default value is ``UTF-8".
+
+
+	\item[ruleSampleSize] When extracting SCFG rules for a given source language phrase, this option defines the number of instances of that source phrase will be sampled from the source training corpus for use in rule extraction. Default value is ``300".
+	
+	\item[startingSentence] Defines the (1-based) sentence index in the test file where grammar extraction will begin. Default value is 1, indicating that a grammar will be extracted capable of translating sentences starting with the first sentence in the test file.
+
+	\item[maxTestSentences] Defines the number of sentences in the test file over which grammar extraction will be performed. Default value is {\tt Integer.MAX\_VALUE}. For example, given a test file of 100 sentences, the options {\tt startingSentence="51"  maxTestSentences="25"} would cause grammar extraction to be performed over test sentences 51--75.
+
+\end{description}
+%\caption{Options can be configured in the {\tt extractRules} target.}
+%\end{figure}
+
+
+The following parameters can be configured in the {\tt extractRules} target to make rule extraction behave like the Hiero suffix array rule extractor {\protect \cite{Lopez2008} } instead of the behaving according to the rule extraction originally defined in {\protect \newcite{Chiang2005}} .
+
+%\begin{figure}
+\begin{description}
+
+	\item[sentenceInitialX] Boolean option indicates whether rules with an initial source-side nonterminal should be extracted from phrases at the start of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
+
+	\item[sentenceFinalX] Boolean option indicates whether rules with a final source-side nonterminal should be extracted from phrases at the end of a sentence, even though such rules do not have supporting corporal evidence. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
+
+	\item[edgeXViolates] Boolean option indicates whether rules with an initial or final source-side nonterminal should be extracted when the source corpus phrase span for the rule, discounting the initial or final nonterminal, is already equal to the maximum phrase span value. Since nonterminals conceptually correspond to elided elements in the training corpus, setting this value to true allows phrases which have a longer phrase span than the maximum allowed phrase span. This option is provided for compatibility with Hiero's suffix array rule extractor \cite{Lopez2008}, in which this setting is set to true. Default value is ``true".
+
+	\item[requireTightSpans] Boolean option; if true, follow the heuristic from \cite{Chiang2005}: where multiple initial phrase pairs contain the same set of alignment points, consider only the smallest when performing rule extraction. For compatibility with \newcite{Lopez2008}, set this parameter to false. Default value is ``true".
+
+\end{description}
+%\caption{Options can be configured in the {\tt extractRules} target to make rule extraction behave like the Hiero suffix array rule extractor {\protect \cite{Lopez2008} } instead of the behaving according to the rule extraction originally defined in {\protect \newcite{Chiang2005}} .}
+%\end{figure}
+
+Additional options can be configured in the {\tt extractRules} target to affect behavior of the prefix tree.
+
+%\begin{figure}
+\begin{description}
+	\item[keepTree] Boolean option indicates whether the prefix tree should persist from sentence to sentence during grammar extraction. If set to false, a new prefix tree will be created to process each sentence in the test file. Default value is ``true".
+
+	\item[printPrefixTree] Boolean option indicates whether a representation of the prefix tree should be printed to standard output. If set to true, the tree will be printed after processing each sentence in the test file. Default value is ``false".
+
+\end{description}
+%\caption{Additional options can be configured in the {\tt extractRules} target to affect behavior of the prefix tree.}
+%\end{figure}
+
 
 \section*{Acknowledgements}
 
