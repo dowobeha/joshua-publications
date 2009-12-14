@@ -203,7 +203,7 @@ A corpus can be considered a simple list whose size is equal to the number of wo
 	\State \Return {$0$}
 \EndFunction
 \end{algorithmic}
-\caption{}
+\caption{During suffix array creation, the contents of a corpus array are sorted using the element comparison function {\sc {Compare\_Elements}}}
 \label{sort}
 \end{figure}
 
@@ -350,7 +350,7 @@ The output directory, by convention, is named with the suffix {\tt {\tt .josh}}.
 %
 These binary files are given canonical names inside the {\tt {\tt .josh}} directory, so that the decoder can use them simply by specifying the {\tt .josh} directory in the {\tt tm\_file=$\ldots$} line of the Joshua configuration file. 
 
-It is often useful (especially during MERT) to extract a test set specific grammar once in a preprocessing step, since that test set will be translated many times and re-extracting the grammar each time would be wasteful. The {\tt joshua.prefix\_tree.ExtractRules} program performs this task. When run directly, this program accepts either three arguments (a compiled {\tt .josh} directory, file name for grammar to extract, and test file) or five arguments (source corpus text file, target corpus text file, word alignments text file, file name for grammar to extract, and test file). 
+It is often useful (especially during MERT) to extract a test set specific grammar once in a preprocessing step, since that test set will be translated many times and re-extracting the grammar each time would be wasteful. To perform this task, the program {\tt joshua.prefix\_tree.ExtractRules} can be used. When run directly, this program accepts either three arguments (a compiled {\tt .josh} directory, file name for grammar to extract, and test file) or five arguments (source corpus text file, target corpus text file, word alignments text file, file name for grammar to extract, and test file). 
 %This program can also be accessed as an Apache Ant task (see Figure \ref{ant-file}). 
 The following subsections document the mandatory and optional parameters that can be passed to this program through the {\tt extractRules} ant task.
 
