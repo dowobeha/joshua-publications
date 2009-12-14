@@ -54,6 +54,7 @@
 @String{AMTA-2006 = "Proceedings of the 7th Biennial Conference of the Association for Machine Translation in the Americas (AMTA-2006)"}
 @String{AMTA-2008 = "Proceedings of the 8th Biennial Conference of the Association for Machine Translation in the Americas (AMTA-2008)"}
 
+@String{EAMT-2005 = "Proceedings of the 10th Annual Conference of the European Association for Machine Translation (EAMT-2005)"}
 
 
 @String{IWSLT = "Proceedings of the International Workshop on Spoken Language Technology"}
@@ -66,6 +67,7 @@
 
 @String{ACL-1989-address = "Vancouver, British Columbia, Canada"}
 @String{ACL-1995-address = "Cambridge, Massachusetts"}
+@String{ACL-1996-address = "Santa Cruz, California, USA"}
 @String{ACL-1997-address = "Madrid, Spain"}
 @String{ACL-1998-address = "Montreal, Canada"}
 @String{ACL-1999-address = "College Park, Maryland"}
@@ -79,6 +81,7 @@
 @String{ACL-2004-address = "Barcelona, Spain"}
 @String{EMNLP-2004-address = "Barcelona, Spain"}
 @String{ACL-2005-address = "Ann Arbor, Michigan"}
+@String{EAMT-2005-address = "Budapest, Hungary"}
 @String{IWPT-2005-address = "Vancouver, BC, Canada"}
 @String{ACL-2006-address = "Sydney, Australia"}
 @String{EMNLP-2006-address = "Sydney, Australia"}
@@ -122,6 +125,7 @@
 
 @String{ACL-1989 = "Proceedings of ACL"}
 @String{ACL-1995 = "Proceedings of ACL"}
+@String{ACL-1996 = "Proceedings of ACL"}
 @String{ACL-1997 = "Proceedings of ACL"}
 @String{ACL-1998 = "Proceedings of ACL/CoLing"}
 @String{ACL-1999 = "Proceedings of ACL"}
@@ -214,6 +218,9 @@
 
 
 
+
+
+@String{ACL-2005 = "Proc. ACL"}
 
 ######################################################
 ######################################################
@@ -460,6 +467,16 @@
   year = 	 {2004}
 }
 
+@article{Kumar2006,
+  author = {Shankar Kumar and Yonggang Deng and William Byrne},
+  title = {A weighted ﬁnite state transducer translation template model for statistical machine translation},
+  booktitle = {Natural Language Engineering},
+  volume = {12},
+  number = {1},
+  pages = {35--75},
+  year = 2006
+}
+
 @InProceedings{Eisner2006,
   author = 	 {Jason Eisner and Roy W. Tromble},
   title = 	 {Local Search with Very Large-Scale Neighborhoods for Optimal Permutations in Machine Translation}, 
@@ -643,6 +660,33 @@
   publisher =    {Kluwer Academic Publishers},
   url = {http://www.swetswise.com/eAccess/viewFulltext.do?articleID=10007211}
 }
+
+@incollection{Somers2003,
+  author = {Somers, Harold},
+  title = {An overview of {EBMT}},
+  booktitle = { Recent Advances in Example-Based Machine Translation},
+  year = {2003},
+  publisher = {Kluwer Academic Publishers},
+  editor = {Michael Carl and Andy Way},
+  pages = {115--153},
+  chapter = {4}
+}
+
+@inproceedings{Brown2004,
+  author = {Ralf D. Brown},
+  title = {A modiﬁed Burrows-Wheeler transform for highly-scalable example-based translation},
+  booktitle = AMTA-2004,
+  address = AMTA-2004-address,
+  year = {2004},
+}
+
+@inproceedings{Phillips2009,
+  author = {Aaron B. Phillips and Ralf D. Brown},
+  title = {Cunei Machine Translation Platform: System Description},
+  booktitle= {3rd Workshop on Example-Based Machine Translation}, 
+  address = {Dublin, Ireland}, 
+  year= {2009}
+} 
 
 # Original Example Based MT article.
 @incollection{Nagao1981,
@@ -855,7 +899,7 @@
 @inproceedings{Moses,
   author =	{Philipp Koehn and Hieu Hoang and Alexandra Birch and Chris Callison-Burch and Marcello Federico and Nicola Bertoldi and Brooke Cowan and Wade Shen and Christine Moran and Richard Zens and Chris Dyer and Ondrej Bojar and Alexandra Constantin and Evan Herbst},
   title =	{Moses: Open source toolkit for statistical machine translation},
-  booktitle =  {Proceedings of the ACL-2007 Demo and Poster Sessions},
+  booktitle =   {Proc. ACL-2007 Demo and Poster Sessions},
   address = ACL-2007-address,
   year =	{2007},
 }
@@ -2018,8 +2062,13 @@ translation},
   url =	{http://projectile.is.cs.cmu.edu/research/public/publications/tmi2004.pdf}
 }
 
-
-
+@inproceedings{Zhang2005,
+  author =	{Ying Zhang and Stephan Vogel},
+  title = {An efﬁcient phrase-to-phrase alignment model for arbitrarily long phrase and large corpora},
+  booktitle = EAMT-2005,
+  year = {2005},
+  address = EAMT-2005-address
+}
 
 @inproceedings{Coughlin2003,
   author =	{Deborah Coughlin},
@@ -3879,6 +3928,8 @@ address=	 {Honolulu, Hawaii}
  }
 
 
+
+
 @techreport{Zhang2006,
   author =       	{ Ying Zhang and Stephan Vogel },
   title =        	{Suffix array and its applications in empirical natural language processing},
@@ -3901,7 +3952,13 @@ address=	 {Honolulu, Hawaii}
   year = 		{2007}
  }
 
-
+@phdthesis{Lopez2008,
+  title = {Machine Translation by Pattern Matching},
+  author = {Adam Lopez},
+  month = {March},
+  year = {2008},
+  school = {University of Maryland}
+}
 
 
 @article{Levenshtein1966,
@@ -4399,3 +4456,31 @@ address=	 {Honolulu, Hawaii}
   title = {A Learning Approach to Improving Sentence-Level {MT} Evaluation},
   year = 2004
 }
+
+@inproceedings{Fredkin1960,
+  author = {Edward Fredkin},
+  title = {Trie Memory},
+  booktitle = {Communications of the ACM},
+  volume = {3},
+  number = {9},
+  pages = {490--499},
+  year = {1960}
+}
+
+@inproceedings{Ayan2006a,
+  author = {Necip Fazil Ayan and Bonnie Dorr},
+  title = { Going beyond {AER}: An extensive analysis of word alignments and their impact on {MT}},
+  booktitle = ACL-2006,
+  address = ACL-2006-address,
+  year = {2006},
+  pages = {9--16},
+  month = {July},
+  year = {2006}
+}
+
+@manual{ant1.7.1,
+  title = {Apache Ant 1.7.1 Manual},
+  year = {2008},
+  organization = {The Apache Software Foundation}
+}
+  
