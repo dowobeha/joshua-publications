@@ -52,7 +52,7 @@
 % Pass all global options to the "article" class
                                                                                 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-\ExecuteOptions{nologo}
+\ExecuteOptions{logo}
 \ProcessOptions
                                                                                 
 % Load the class with default options
@@ -254,7 +254,7 @@
     OCTOBER\or
     NOVEMBER\or
     DECEMBER\fi}
-\def\pbml@number{???}
+\def\pbml@number{92}
 
 \def\PBMLinfo#{\setkeys{PBMLinfo}}
 
