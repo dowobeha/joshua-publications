@@ -254,7 +254,7 @@
     OCTOBER\or
     NOVEMBER\or
     DECEMBER\fi}
-\def\pbml@number{92}
+\def\pbml@number{93}
 
 \def\PBMLinfo#{\setkeys{PBMLinfo}}
 
@@ -304,24 +304,8 @@ xetex]{hyperref}\fi}
 % Find information in the .aux file and compose the page range
 
 \def\pbml@makerange{%
-    \expandafter\ifx\csname\pbml@prefix @@lastpage@@\endcsname\relax
-      \expandafter\ifx\csname\pbml@prefix @@firstpage@@\endcsname\relax
-        \edef\pbml@pagerange{??--???}%
-      \else
-        \edef\pbml@pagerange{\@nameuse{\pbml@prefix @@firstpage@@}--???}%
-      \fi
-    \else
-    \expandafter\ifx\csname\pbml@prefix @@firstpage@@\endcsname\relax
-      \edef\pbml@pagerange{???--???}% an error has occured
-    \else
-      \edef\pbml@tempa{\@nameuse{\pbml@prefix @@firstpage@@}}%
-      \edef\pbml@tempb{\@nameuse{\pbml@prefix @@lastpage@@}}%
-      \ifnum\pbml@tempa=\pbml@tempb
-        \edef\pbml@pagerange{\pbml@tempb}%
-      \else
-        \edef\pbml@pagerange{\pbml@tempa--\pbml@tempb}%
-      \fi
-    \fi \fi}
+        \edef\pbml@pagerange{127--136}%
+}
 
 % Print the header
 
