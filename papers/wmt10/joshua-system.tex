@@ -15,35 +15,46 @@
 \usepackage{times}
 \usepackage{url}
 \usepackage{latexsym}
+\usepackage[colorlinks]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
 %\setlength\titlebox{6.5cm}    % You can expand the title box if you
 % really have to
 
 \title{Joshua: An Open Source Toolkit for Parsing-based Machine Translation}
 
-\author{
-Zhifei Li,\,\,\,
-Chris Callison-Burch,\,\,\, %add a footnote to mention that CCB is the project leader
-Chris Dyer,$^\dagger$\,\,\,
-Juri Ganitkevitch,\,\,\,
-Sanjeev Khudanpur,\,\,\, \\
-{\bf Lane Schwartz,$^\star$\,\,\,
-Wren N.\,G.\,Thornton,\,\,\,
-Jonathan Weese\,\,
-{\textnormal{and}}\,\,\,Omar F. Zaidan}\\
-Center for Language and Speech Processing, Johns Hopkins University, Baltimore, MD\\
-$\dagger$ Computational Linguistics and Information Processing Lab, University of Maryland, College Park, MD\\
-$\star$ Natural Language Processing Lab, University of Minnesota, Minneapolis, MN }
+%\author{
+%Zhifei Li,\,\,\,
+%Chris Callison-Burch,\,\,\, %add a footnote to mention that CCB is the project leader
+%Chris Dyer,$^\dagger$\,\,\,
+%Juri Ganitkevitch,\,\,\,
+%Sanjeev Khudanpur,\,\,\, \\
+%{\bf Lane Schwartz,$^\star$\,\,\,
+%Wren N.\,G.\,Thornton,\,\,\,
+%Jonathan Weese\,\,
+%{\textnormal{and}}\,\,\,Omar F. Zaidan}\\
+%Center for Language and Speech Processing, Johns Hopkins University, Baltimore, MD\\
+%$\dagger$ Computational Linguistics and Information Processing Lab, University of Maryland, College Park, MD\\
+%$\star$ Natural Language Processing Lab, University of Minnesota, Minneapolis, MN }
 
 
 \date{}
 
 \begin{document}
 \maketitle
+
 \begin{abstract}
  This paper describes Joshua, an open source hierarchical phrase-based statistical machine translation system. Results for the WMT 2010 shared task are reported for six language pairs.
 \end{abstract}
 
+\listoftodos
+
+\section{Grammar Extraction}
+
+\todo{Add info about grammar extraction; MT Marathon paper and speedups}
+
 \section{Results}
+
+\todo{Describe results}
 
 \begin{table}[h]
 \begin{center}
@@ -60,8 +71,25 @@ Spanish & English & 29.0 & 27.6 & 0.595 \\ \hline
 English & Spanish & 28.1 & 26.5 & 0.596  \\ \hline
 \end{tabular}
 \end{center}
-\caption{\label{scores} Results }
+\caption{\label{scores} Automatic metric scores for the test set newstest2010 }
 \end{table}
 
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l||c|}
+\hline
+\bf Source & \bf Target & \bf BLEU  \\
+\hline
+German & English & 18.19  \\ \hline
+English & German & 13.57 \\ \hline
+French & English & 26.41 \\ \hline
+English & French & 25.28 \\ \hline
+Spanish & English & 25.28 \\ \hline
+English & Spanish & 24.02  \\ \hline
+\end{tabular}
+\end{center}
+\caption{\label{devtest-scores} Automatic metric scores for the development test set newstest2009}
+\end{table}
 
 \end{document}
