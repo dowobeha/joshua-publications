@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{url}
+\usepackage{latexsym}
+\usepackage[%
+  colorlinks,%
+  linkcolor=black,%
+  anchorcolor=black,%
+  citecolor=black,%
+  filecolor=black,%
+  menucolor=black,%
+  pagecolor=black,%
+  urlcolor=black,%
+  %hyperindex=false,%
+  bookmarksopen=true,%
+  pdfusetitle,%
+  pdfpagelabels,
+  naturalnames
+]{hyperref}
+%\usepackage[colorlinks]{hyperref}
+
+
+\usepackage{acl2010}
+\usepackage[colorinlistoftodos]{todonotes}
+
+
+\title{Empirical Questions in Machine Translation\
+ --- Reproducible Results for the JHU WMT10 System}
+
+\author{Lane Schwartz\
+\thanks{Research conducted as a visiting researcher at Johns Hopkins University}\
+\\University of Minnesota\\Minneapolis, MN}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+%\listoftodos
+
+\section{Introduction}
+
+
+
+\todo[inline,caption={Motivation}]{
+Papers are not reproducible.
+\begin{itemize}
+\item Don't list code
+\item Don't provide data
+\item Don't publish scripts to reproduce
+\end{itemize}
+
+MT is complex, much more so than other CL research (parsing, tagging, ASR, etc)
+}
+
+\todo[inline,caption={Call to action}]{
+\cite{pedersen2010}
+
+CL Research can and should have an extremely low barrier to entry. Allow for lone researchers and small groups the opportunity to participate.
+}
+
+\section{Related Work}
+
+\todo[inline,caption={Open code examples}]{
+Moses \cite{Moses}, Joshua \cite{Joshua-WMT}, SAMT \cite{samt2006}, Cunei \cite{Phillips2009}
+}
+
+\todo[inline,caption={Open data examples}]{
+Europarl \cite{Koehn-europarl}, JRC-Acquis \cite{Steinberger-2006}, Fr-En $10^9$ \cite{WMT09-Findings}, News Commentary \cite{Callison-Burch2007a,Callison-Burch2008a}
+}
+
+\todo[inline,caption={Open workflow examples}]{
+\cite{LoonyBin} and \cite{experiment.perl}
+}
+
+\section{Framework}
+
+\missingfigure{Graph of dependencies and steps}
+
+GNU Make \cite{gnumake}
+
+\todo[inline,color=yellow,caption={parallel make}]{
+Many tasks, such as preprocessing numerous training files, are not dependent on one another. In such cases {\tt make} can be configured to execute multiple processes simultaneously on a single multi-processor machine. In cases where scheduled distributed computing environments such as the Sun Grid Engine are configured, well-designed make files can be run by make variants ({\tt distmake}, SGE {\tt qmake}, Sun Studio {\tt dmake}) which distribute tasks to multiple machines using the distributed scheduler.
+}
+
+\section{Reproducible Results}
+
+
+\bibliographystyle{acl}
+\bibliography{bibliography}
+
+\end{document}
