@@ -1,0 +1,92 @@
+digraph G {
+
+		// We want all the shapes to be rounded rectangles
+		node[shape=box, style=rounded,fontsize=10,height=0,width=0,textwidth=1];
+
+	//subgraph clusterTools  { label="Tools"; 
+		Scripts [style=solid,color=grey,label="WMT Scripts"]
+		SRILM [style=solid,color=grey,label="SRILM"]
+		BerkeleyAligner [style=solid,color=grey,label="Berkeley Aligner"]
+		Hiero [style=solid,color=grey]
+		Joshua [style=solid,color=grey]
+	//}
+
+	//subgraph clusterPreprocess { label="Preprocess Data";
+		OriginalData [label="Download Data"]
+		OriginalDataUnzipped [label="Unzip Data"]
+		RemoveXML [label="Remove XML"]
+		Tokenize
+		Normalize
+	//	}
+		
+	//	subgraph clusterTrain { label="Train Models"
+			LM [label="LM"]
+			Subsample
+			Align
+			Grammar
+			MERT
+	//	}
+		
+				
+	//	subgraph clusterTrainRecase { label="Train Recaser"
+			RecaseLM [label="Truecase LM"]
+			RecaseSubsample [label="Truecase Subsample"]
+			RecaseAlign [label="Truecase Align"]
+			RecaseGrammar [label="Truecase Grammar"]
+	//	}
+		
+	//	subgraph clusterTranslate {
+			Translate [label="Translation"]
+			Recase [label="Truecase Translation"]
+	//	}
+		
+		// Preprocessing dependencies
+		OriginalData -> OriginalDataUnzipped	
+		OriginalDataUnzipped -> RemoveXML
+		OriginalDataUnzipped -> Tokenize
+		RemoveXML -> Tokenize
+		Tokenize -> Normalize
+
+		Normalize -> LM
+		Normalize -> Subsample
+		Subsample -> Align
+		Subsample -> Grammar
+		Align -> Grammar
+		Grammar -> MERT
+		LM -> MERT
+		
+		MERT -> Translate
+		Grammar -> Translate
+		LM -> Translate
+		Normalize -> Translate
+		
+		Tokenize -> RecaseLM
+		Tokenize -> RecaseSubsample
+		RecaseSubsample -> RecaseAlign
+		RecaseSubsample -> RecaseGrammar
+
+		RecaseAlign -> RecaseGrammar
+		RecaseGrammar -> Recase
+		RecaseLM -> Recase
+
+		Translate -> Recase
+
+		// Preprocessing tools dependencies
+		Scripts -> RemoveXML [color=grey]
+		Scripts -> Tokenize [color=grey]
+		Scripts -> Normalize [color=grey]
+		
+		SRILM -> LM [color=grey]
+		SRILM -> RecaseLM [color=grey]
+		
+		BerkeleyAligner -> Align [color=grey]
+		
+		Hiero -> Grammar [color=grey]
+		Joshua -> Grammar [color=grey]
+		
+		Joshua -> MERT [color=grey]
+		Joshua -> Translate [color=grey]
+		Joshua -> Recase [color=grey]
+		Joshua -> RecaseGrammar [color=grey]
+		
+		}

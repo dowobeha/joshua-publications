@@ -1,35 +1,45 @@
 \documentclass[11pt]{article}
+%\usepackage[%
+%  colorlinks,%
+%  linkcolor=black,%
+%  anchorcolor=black,%
+%  citecolor=black,%
+%  filecolor=black,%
+%  menucolor=black,%
+%  pagecolor=black,%
+%  urlcolor=black,%
+%  %hyperindex=false,%
+%  bookmarksopen=true,%
+%  pdfusetitle,%
+%  pdfpagelabels,
+%  naturalnames
+%]{hyperref}
 \usepackage{times}
 \usepackage{url}
 \usepackage{latexsym}
-\usepackage[%
-  colorlinks,%
-  linkcolor=black,%
-  anchorcolor=black,%
-  citecolor=black,%
-  filecolor=black,%
-  menucolor=black,%
-  pagecolor=black,%
-  urlcolor=black,%
-  %hyperindex=false,%
-  bookmarksopen=true,%
-  pdfusetitle,%
-  pdfpagelabels,
-  naturalnames
-]{hyperref}
+
 %\usepackage[colorlinks]{hyperref}
 
+\usepackage{tikz}
+\usetikzlibrary{fit,shapes.misc,shapes}
 
 \usepackage{acl2010}
 \usepackage[colorinlistoftodos]{todonotes}
 
 
-\title{Empirical Questions in Machine Translation\
- --- Reproducible Results for the JHU WMT10 System}
+%\title{Empirical Questions in Machine Translation\
+ %--- Reproducible Results for the JHU WMT10 System}
+\title{Reproducible Results in Parsing-Based Machine Translation:\\
+The JHU Shared Task Submission}
 
 \author{Lane Schwartz\
 \thanks{Research conducted as a visiting researcher at Johns Hopkins University}\
-\\University of Minnesota\\Minneapolis, MN}
+\\University of Minnesota\\Minneapolis, MN\\
+{\tt lane@cs.umn.edu} \And
+Chris Callison-Burch \\
+Johns Hopkins University \\
+Baltimore, MD\\
+{\tt ccb@cs.jhu.edu}}
 
 \date{}
 
@@ -76,18 +86,85 @@ Europarl \cite{Koehn-europarl}, JRC-Acquis \cite{Steinberger-2006}, Fr-En $10^9$
 \cite{LoonyBin} and \cite{experiment.perl}
 }
 
+\todo[inline,caption={Parsing-based SMT}] {
+Parsing-based SMT: \cite{SCALE-report} Hiero grammar extraction \cite{Lopez2008}
+}
+
 \section{Framework}
 
-\missingfigure{Graph of dependencies and steps}
+%\missingfigure{Graph of dependencies and steps}
+\begin{figure*}
+%\include{mt-workflow-preprocess}
+\include{figure.pgf}
+%\begin{tikzpicture}[shape=rounded rectangle]
+%\node (PreprocessLabel) {\underline{\bf Preprocess Data}};
+%\node (CompressedData) [style=draw,below of= PreprocessLabel]  {Compressed Data};
+%\node (DecompressedData) [style=draw,below of=CompressedData] {Decompressed Data};a
+%\node (RemoveXML) [style=draw,below of=DecompressedData,text width=28mm]  {Test Set Data Stripped of XML};
+%\node (Tokenize) [style=draw,below of= RemoveXML]  {Tokenized Data};
+%\node (Normalize) [style=draw,below of=Tokenize] {Normalized Data};
+%\node [style=draw,shape=rectangle,fit=(PreprocessLabel) (CompressedData) (DecompressedData) (RemoveXML) (Tokenize) (Normalize)] {};
+%
+%\draw [->] (CompressedData) -- (DecompressedData);
+%\draw [->] (DecompressedData) -- (RemoveXML);
+%\draw [->] (RemoveXML) -- (Tokenize);
+%\draw [->] (Tokenize) -- (Normalize);
+%\draw [->] (DecompressedData) -- (Tokenize);
+%\end{tikzpicture}
+
+\caption{Machine translation workflow}
+\end{figure*}
 
 GNU Make \cite{gnumake}
 
 \todo[inline,color=yellow,caption={parallel make}]{
-Many tasks, such as preprocessing numerous training files, are not dependent on one another. In such cases {\tt make} can be configured to execute multiple processes simultaneously on a single multi-processor machine. In cases where scheduled distributed computing environments such as the Sun Grid Engine are configured, well-designed make files can be run by make variants ({\tt distmake}, SGE {\tt qmake}, Sun Studio {\tt dmake}) which distribute tasks to multiple machines using the distributed scheduler.
+Many tasks, such as preprocessing numerous training files, are not dependent on one another. In such cases {\tt make} can be configured to execute multiple processes simultaneously on a single multi-processor machine. In cases where scheduled distributed computing environments such as the Sun Grid Engine are configured, make files can be processed by scheduler-aware {\tt make} variants ({\tt distmake}, SGE {\tt qmake}, Sun Studio {\tt dmake}) which distribute outstanding tasks to available distributed machines using the relevant distributed scheduler.
 }
 
 \section{Reproducible Results}
 
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l||c|c|c|}
+\hline
+\bf Source & \bf Target & \bf BLEU & \bf BLEU- & \bf TER \\
+& & & \bf cased & \\
+\hline
+German & English & 21.3 & 19.5 & 0.660 \\ \hline
+English & German & 15.2  & 14.6  & 0.738 \\ \hline
+French & English & 27.7 & 26.4 & 0.614 \\ \hline
+English & French & 23.8 & 22.8 & 0.681 \\ \hline
+Spanish & English & 29.0 & 27.6 & 0.595 \\ \hline
+English & Spanish & 28.1 & 26.5 & 0.596  \\ \hline
+\end{tabular}
+\end{center}
+\caption{\label{scores} Automatic metric scores for the test set newstest2010 }
+\end{table}
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l||c|}
+\hline
+\bf Source & \bf Target & \bf BLEU  \\
+\hline
+German & English & 18.19  \\ \hline
+English & German & 13.57 \\ \hline
+French & English & 26.41 \\ \hline
+English & French & 25.28 \\ \hline
+Spanish & English & 25.28 \\ \hline
+English & Spanish & 24.02  \\ \hline
+\end{tabular}
+\end{center}
+\caption{\label{devtest-scores} Automatic metric scores for the development test set newstest2009}
+\end{table}
+
+\todo[inline,caption={URL}]{
+List how to download: \url{http://sourceforge.net/projects/joshua/files/joshua/1.3/wmt2010-experiment.tgz}
+}
+
+\section*{Acknowledgements}
+This work was supported by the DARPA GALE program (Contract No HR0011-06-2-0001).
 
 \bibliographystyle{acl}
 \bibliography{bibliography}
