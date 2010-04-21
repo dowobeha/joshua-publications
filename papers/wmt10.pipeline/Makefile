@@ -5,7 +5,7 @@ RERUNBIB = "No file.*\.bbl|Citation.*undefined"
 all: paper.pdf
 	open $<
 
-paper.tex: figure.pgf.dot
+paper.tex: figure.pgf.tex
 
 %.pgf.tex: %.dot
 	dot2tex $< --figonly -f pgf -e utf8 --prog=dot -o $@
