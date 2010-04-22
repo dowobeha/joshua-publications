@@ -33,7 +33,7 @@
 The JHU Shared Task Submission}
 
 \author{Lane Schwartz\
-\thanks{Research conducted as a visiting researcher at Johns Hopkins University}\
+\thanks{\ Research conducted as a visiting researcher at Johns Hopkins University}\
 \\University of Minnesota\\Minneapolis, MN\\
 {\tt lane@cs.umn.edu} \And
 Chris Callison-Burch \\
@@ -53,44 +53,36 @@ Baltimore, MD\\
 
 \section{Introduction}
 
+%\todo[inline,color=yellow,caption={Call to action}]{
+
+Research investigating natural language process and computational linguistics can and should have an extremely low barrier to entry. The data with which we work is customarily available in common electronic formats. The computational techniques which we apply can typically be performed on commodity computing resources which are widely available. In short, there should be no reason why small research groups and even lone researchers should not be able to join and make substantive contributions furthering our field.
+%
+The reality is less encouraging. 
+
+Many published articles describe novel techniques and provide interesting results, yet fail to describe technical details in sufficient detail to allow their results to be reproduced by other researchers. While there are notable and laudable exceptions, many publications fail to provide the source code and scripts necessary to reproduce results. The use of private data, not freely available for download by any interested researcher only compounds these problems. \newcite{pedersen2010} rightly argues that the implementation details so often ignored in publications are in fact essential for our research to be reproducible science.
+
+Reproducibility in machine translation is made more challenging by the complexity of experimental workflows. Results in machine translation tasks are dependent on a cascade of processing steps and configurations. While interesting subsets of these usually appear in experimental descriptions, many steps (preprocessing techniques, alignment parameters, translation rule extraction parameters, language model parameters, list of features used) are invariably omitted, even though these configurations are often critical to reproducing results.
+
+This paper describes the Johns Hopkins University submission to the 2010 Workshop on Statistical Machine Translation shared translation task. Links to the software, scripts, and configurations used to run the experiments described herein are provided. The remainder of this paper is structured as follows. Section \ref{Related Work} lists the major examples of publicly available open source machine translation systems, parallel corpora, and machine translation workflow management systems. Section \ref{Framework} describes the experimental design used to run the shared task translations. Section \ref{Results} presents the shared task results.
 
 
-\todo[inline,caption={Motivation}]{
-Papers are not reproducible.
-\begin{itemize}
-\item Don't list code
-\item Don't provide data
-\item Don't publish scripts to reproduce
-\end{itemize}
 
-MT is complex, much more so than other CL research (parsing, tagging, ASR, etc)
-}
-
-\todo[inline,caption={Call to action}]{
-\cite{pedersen2010}
-
-CL Research can and should have an extremely low barrier to entry. Allow for lone researchers and small groups the opportunity to participate.
-}
 
 \section{Related Work}
+\label{Related Work}
 
-\todo[inline,caption={Open code examples}]{
-Moses \cite{Moses}, Joshua \cite{Joshua-WMT}, SAMT \cite{samt2006}, Cunei \cite{Phillips2009}
-}
+The last four years have witnessed the implementation and release of numerous open source machine translation systems. The widely used Moses system implements the standard phrase-based translation model. Parsing-based translation models are implemented by SAMT \cite{samt2006} and Joshua \cite{Joshua-WMT}. Cunei \cite{Phillips2009} implements statistical example-based translation. The SRILM \cite{Stolcke2002} and IRSTLM \cite{IRSTLM} toolkits enable efficient training and querying of n-gram language models. \newcite{Phramer} and \newcite{schwartz08mclc} provide other open-source implementations of phrase-based and hierarchical decoders, respectively.
 
-\todo[inline,caption={Open data examples}]{
-Europarl \cite{Koehn-europarl}, JRC-Acquis \cite{Steinberger-2006}, Fr-En $10^9$ \cite{WMT09-Findings}, News Commentary \cite{Callison-Burch2007a,Callison-Burch2008a}
-}
+Freely available parallel corpora for numerous European languages have also been released in recent years. These include the Europarl \cite{Koehn-europarl} and JRC-Acquis \cite{Steinberger-2006} legislative corpora, each of which includes data for most EU language pairs. The smaller News Commentary \cite{Callison-Burch2007a,Callison-Burch2008a} provide smaller amounts of parallel data in the news genre. The recent Fr-En $10^9$ \cite{WMT09-Findings} corpus aggregates huge numbers of parallel French-English sentences from the web.
 
-\todo[inline,caption={Open workflow examples}]{
-\cite{LoonyBin} and \cite{experiment.perl}
-}
+Systems to address the complex workflows required to run non-trivial machine translation experiments have also been developed. These include {\tt experiment.perl} \cite{experiment.perl}, developed as a workflow management system at the University of Edinburgh, and LoonyBin \cite{LoonyBin}, a general hyperworkflow management utility from Carnegie Melon University.
 
 \todo[inline,caption={Parsing-based SMT}] {
-Parsing-based SMT: \cite{SCALE-report} Hiero grammar extraction \cite{Lopez2008}
+Hiero grammar extraction \cite{Lopez2008}
 }
 
 \section{Framework}
+\label{Framework}
 
 %\missingfigure{Graph of dependencies and steps}
 \begin{figure*}
@@ -112,7 +104,7 @@ Parsing-based SMT: \cite{SCALE-report} Hiero grammar extraction \cite{Lopez2008}
 %\draw [->] (DecompressedData) -- (Tokenize);
 %\end{tikzpicture}
 
-\caption{Machine translation workflow}
+\caption{Machine translation workflow. The scripts and configuration files used to implement and run this workflow are available for download at \url{http://sourceforge.net/projects/joshua/files/joshua/1.3/wmt2010-experiment.tgz}}
 \end{figure*}
 
 GNU Make \cite{gnumake}
@@ -121,7 +113,27 @@ GNU Make \cite{gnumake}
 Many tasks, such as preprocessing numerous training files, are not dependent on one another. In such cases {\tt make} can be configured to execute multiple processes simultaneously on a single multi-processor machine. In cases where scheduled distributed computing environments such as the Sun Grid Engine are configured, make files can be processed by scheduler-aware {\tt make} variants ({\tt distmake}, SGE {\tt qmake}, Sun Studio {\tt dmake}) which distribute outstanding tasks to available distributed machines using the relevant distributed scheduler.
 }
 
+\todo[inline,caption={experimental design}] {
+
+\begin{itemize}
+\item Data used: Europarl \cite{Koehn-europarl}, Fr-En $10^9$ \cite{WMT09-Findings}, News Commentary \cite{Callison-Burch2007a,Callison-Burch2008a}. No restricted data from the LDC. 
+\item Preprocessing: Removed XML markup; Tokenized and lowercased training data using scripts provided for the WMT10 shared task
+\item Training corpus subsampling, as described in \cite{Joshua-WMT}
+\item Corpus aligned using Berkeley aligner \cite{liang06alignment}
+\item Grammar extraction using Joshua suffix array grammar extraction \cite{Schwartz-PBML}; for Fr-En corpus used \cite{Lopez2008} for speed
+\item Language models built using SRILM \cite{Stolcke2002}.
+\item Decoder used was Joshua \cite{Joshua-WMT}
+\item Minimum error rate training \cite{Zaidan2009}
+\end{itemize}
+}
+
+\todo[inline,color=yellow] {
+Our experiments used hierarchical phrase-based grammars containing exactly two nonterminals - the wildcard nonterminal X, and S, used to glue together neighboring constituents. Recent work has shown that parsing-based machine translation using SAMT \cite{samt2006} grammars with rich nonterminal sets can demonstrate substantial gains over hierarchical grammars for certain language pairs \cite{SCALE-report}. Joshua supports such grammars; the experimental workflow presented here could easily be extended in future research to incorporate the use of SAMT grammars with additional language pairs.
+}
+
+
 \section{Reproducible Results}
+\label{Results}
 
 \begin{table}[h]
 \begin{center}
