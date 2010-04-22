@@ -1,34 +1,13 @@
 \documentclass[11pt]{article}
-%\usepackage[%
-%  colorlinks,%
-%  linkcolor=black,%
-%  anchorcolor=black,%
-%  citecolor=black,%
-%  filecolor=black,%
-%  menucolor=black,%
-%  pagecolor=black,%
-%  urlcolor=black,%
-%  %hyperindex=false,%
-%  bookmarksopen=true,%
-%  pdfusetitle,%
-%  pdfpagelabels,
-%  naturalnames
-%]{hyperref}
 \usepackage{times}
 \usepackage{url}
 \usepackage{latexsym}
-
-%\usepackage[colorlinks]{hyperref}
-
 \usepackage{tikz}
 \usetikzlibrary{fit,shapes.misc,shapes}
-
 \usepackage{acl2010}
 \usepackage[colorinlistoftodos]{todonotes}
 
 
-%\title{Empirical Questions in Machine Translation\
- %--- Reproducible Results for the JHU WMT10 System}
 \title{Reproducible Results in Parsing-Based Machine Translation:\\
 The JHU Shared Task Submission}
 
@@ -49,11 +28,8 @@ Baltimore, MD\\
 \begin{abstract}
 \end{abstract}
 
-%\listoftodos
 
 \section{Introduction}
-
-%\todo[inline,color=yellow,caption={Call to action}]{
 
 Research investigating natural language process and computational linguistics can and should have an extremely low barrier to entry. The data with which we work is customarily available in common electronic formats. The computational techniques which we apply can typically be performed on commodity computing resources which are widely available. In short, there should be no reason why small research groups and even lone researchers should not be able to join and make substantive contributions furthering our field.
 %
@@ -68,43 +44,35 @@ This paper describes the Johns Hopkins University submission to the 2010 Worksho
 
 
 
+
+
+
+
 \section{Related Work}
 \label{Related Work}
 
-The last four years have witnessed the implementation and release of numerous open source machine translation systems. The widely used Moses system implements the standard phrase-based translation model. Parsing-based translation models are implemented by SAMT \cite{samt2006} and Joshua \cite{Joshua-WMT}. Cunei \cite{Phillips2009} implements statistical example-based translation. The SRILM \cite{Stolcke2002} and IRSTLM \cite{IRSTLM} toolkits enable efficient training and querying of n-gram language models. \newcite{Phramer} and \newcite{schwartz08mclc} provide other open-source implementations of phrase-based and hierarchical decoders, respectively.
+The last four years have witnessed the implementation and release of numerous open source machine translation systems. The widely used Moses system implements the standard phrase-based translation model. Parsing-based translation models are implemented by Joshua \cite{Joshua-WMT} and SAMT \cite{samt2006}. Cunei \cite{Phillips2009} implements statistical example-based translation. \newcite{Phramer} and \newcite{schwartz08mclc} respectively provide additional open-source implementations of phrase-based and hierarchical decoders.
+
+The SRILM \cite{Stolcke2002}, IRSTLM \cite{IRSTLM}, and RandLM \cite{Talbot2007a} toolkits enable efficient training and querying of n-gram language models. 
 
 Freely available parallel corpora for numerous European languages have also been released in recent years. These include the Europarl \cite{Koehn-europarl} and JRC-Acquis \cite{Steinberger-2006} legislative corpora, each of which includes data for most EU language pairs. The smaller News Commentary \cite{Callison-Burch2007a,Callison-Burch2008a} provide smaller amounts of parallel data in the news genre. The recent Fr-En $10^9$ \cite{WMT09-Findings} corpus aggregates huge numbers of parallel French-English sentences from the web.
 
-Systems to address the complex workflows required to run non-trivial machine translation experiments have also been developed. These include {\tt experiment.perl} \cite{experiment.perl}, developed as a workflow management system at the University of Edinburgh, and LoonyBin \cite{LoonyBin}, a general hyperworkflow management utility from Carnegie Melon University.
+Open source systems to address the complex workflows required to run non-trivial machine translation experiments have also been developed. These include {\tt experiment.perl} \cite{experiment.perl}, developed as a workflow management system at the University of Edinburgh, and LoonyBin \cite{LoonyBin}, a general hyperworkflow management utility from Carnegie Melon University.
 
-\todo[inline,caption={Parsing-based SMT}] {
-Hiero grammar extraction \cite{Lopez2008}
-}
+
+
+
+
+
+
 
 \section{Framework}
 \label{Framework}
 
-%\missingfigure{Graph of dependencies and steps}
 \begin{figure*}
-%\include{mt-workflow-preprocess}
 \include{figure.pgf}
-%\begin{tikzpicture}[shape=rounded rectangle]
-%\node (PreprocessLabel) {\underline{\bf Preprocess Data}};
-%\node (CompressedData) [style=draw,below of= PreprocessLabel]  {Compressed Data};
-%\node (DecompressedData) [style=draw,below of=CompressedData] {Decompressed Data};a
-%\node (RemoveXML) [style=draw,below of=DecompressedData,text width=28mm]  {Test Set Data Stripped of XML};
-%\node (Tokenize) [style=draw,below of= RemoveXML]  {Tokenized Data};
-%\node (Normalize) [style=draw,below of=Tokenize] {Normalized Data};
-%\node [style=draw,shape=rectangle,fit=(PreprocessLabel) (CompressedData) (DecompressedData) (RemoveXML) (Tokenize) (Normalize)] {};
-%
-%\draw [->] (CompressedData) -- (DecompressedData);
-%\draw [->] (DecompressedData) -- (RemoveXML);
-%\draw [->] (RemoveXML) -- (Tokenize);
-%\draw [->] (Tokenize) -- (Normalize);
-%\draw [->] (DecompressedData) -- (Tokenize);
-%\end{tikzpicture}
 
-\caption{Machine translation workflow. The scripts and configuration files used to implement and run this workflow are available for download at \url{http://sourceforge.net/projects/joshua/files/joshua/1.3/wmt2010-experiment.tgz}}
+\caption{Machine translation workflow. Nodes in grey indicate software and scripts. The scripts and configuration files used to implement and run this workflow are available for download at \url{http://sourceforge.net/projects/joshua/files/joshua/1.3/wmt2010-experiment.tgz}}
 \end{figure*}
 
 GNU Make \cite{gnumake}
@@ -130,6 +98,12 @@ Many tasks, such as preprocessing numerous training files, are not dependent on 
 \todo[inline,color=yellow] {
 Our experiments used hierarchical phrase-based grammars containing exactly two nonterminals - the wildcard nonterminal X, and S, used to glue together neighboring constituents. Recent work has shown that parsing-based machine translation using SAMT \cite{samt2006} grammars with rich nonterminal sets can demonstrate substantial gains over hierarchical grammars for certain language pairs \cite{SCALE-report}. Joshua supports such grammars; the experimental workflow presented here could easily be extended in future research to incorporate the use of SAMT grammars with additional language pairs.
 }
+
+
+
+
+
+
 
 
 \section{Reproducible Results}
@@ -175,8 +149,17 @@ English & Spanish & 24.02  \\ \hline
 List how to download: \url{http://sourceforge.net/projects/joshua/files/joshua/1.3/wmt2010-experiment.tgz}
 }
 
+
+
+
+
+
 \section*{Acknowledgements}
 This work was supported by the DARPA GALE program (Contract No HR0011-06-2-0001).
+
+
+
+
 
 \bibliographystyle{acl}
 \bibliography{bibliography}
