@@ -72,26 +72,28 @@ and a cleaner pipeline for MT experiments.
 
 \section{Introduction}
 
-\textbf{Joshua} is an open-source toolkit for parsing-based machine translation (written in Java). The initial release of Joshua  \cite{joshua-wmt09} was a re-implementation of the Hiero system \cite{hiero-2007} and all its associated algorithms, including: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  The Joshua release also included re-implementations of suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction}  and minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
+\textbf{Joshua} is an open-source toolkit for parsing-based machine translation that is written in Java. The initial release of Joshua  \cite{joshua-wmt09} was a re-implementation of the Hiero system \cite{hiero-2007} and all its associated algorithms, including: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  The Joshua 1.0 release also included re-implementations of suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction}  and minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
 
 This paper describes the additions to the toolkit over the past year, which together form the 2.0 release. The software has been heavily used by the authors and several other groups in their daily research, and has been substantially refined since the first release.  The most important new functions in the toolkit are: 
 \begin{itemize}
 \item
-support for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
+Support for any style of synchronous context free grammar (SCFG)
+% instead of just Hiero grammars.  This 
+including syntax augment machine translation (SAMT) grammars \cite{samt2006},
 \item
-support for external modules to posit translations for spans in the input sentence that constrain decoding,    \cite{PBML-2010-Joshua-transliteration},  
+Support for external modules to posit translations for spans in the input sentence that constrain decoding,    \cite{PBML-2010-Joshua-transliteration},  
 \item
-lattice parsing for dealing with input uncertainty \cite{dyer-muresan-resnik:2008:ACLMain},
+Lattice parsing for dealing with input uncertainty, including ambiguous output from speech recognizers or Chinese word segmenters  \cite{dyer-muresan-resnik:2008:ACLMain},
 \item
-semiring parsing for unified dynamic programming \cite{li-eisner:2009:EMNLP} , 
+Semiring parsing for unified dynamic programming \cite{li-eisner:2009:EMNLP} , 
 \item
-variational decoding for approximating the intractable MAP decoding \cite{variational-decoding-acl09},
+Improvements to decoding through variational methods and approximations to intractable MAP decoding \cite{variational-decoding-acl09},
 \item
-hypergraph-based discriminative training for better feature engineering \cite{zhifei-forest-reranking-galebook}, 
+Hypergraph-based discriminative training for better feature engineering \cite{zhifei-forest-reranking-galebook}, 
 \item
-visualization of the derivation trees and hypergraphs \cite{PBML-2010-Joshua-visualization}, 
+Visualization of the derivation trees and hypergraphs \cite{PBML-2010-Joshua-visualization}, 
 \item
-and a unified framework for designing and running reproducible machine translation experiments \cite{Schwartz-wmt10-pipline}.
+A unified framework for designing and running reproducible machine translation experiments \cite{Schwartz-wmt10-pipline}.
 \end{itemize}
 Below we give a short description for each of the new functions added.
 
