@@ -170,7 +170,7 @@ We implemented variational decoding \cite{variational-decoding-acl09}, which wor
 First, given a foreign string (or lattice), the MT system produces a hypergraph, 
 which encodes a probability distribution $p$ over 
 possible output strings and their derivations.
-Second, a distribution $q$ is selected that approximates $p$ as well as possible but comes from a family of distributions $\mathcal{Q}$ where inference is tractable.  Third, the best string according to $q$ (instead of $p$) is found.
+Second, a distribution $q$ is selected that approximates $p$ as well as possible but comes from a family of distributions $\mathcal{Q}$ in which inference is tractable.  Third, the best string according to $q$ (instead of $p$) is found.
 In our implementation, the $q$ distribution is parameterized by an $n$-gram model, under which 
 the second and third steps can be performed efficiently and exactly via dynamic programming.
 In this way, variational decoding considers all derivations in the hypergraph but still
