@@ -111,22 +111,27 @@ nonterminals in Hiero-style rules
 \begin{center}
 \begin{tabular}{c}
   {\small \tt [X]} $\Rightarrow$ {\small \tt [X,1]} sans {\small \tt [X,2]} 
-  $\vert$ {\tt \small [X,1]} without {\small \tt [X,2]} \\
+  $\vert$ {\tt \small [X,1]} without {\small \tt [X,2]}
 \end{tabular}
 \end{center}
-extracted from the bitext, the nonterminals are labeled according
-to what constituents cover the nonterminal span on the parsed side of
-the bitext. 
+extracted from the bitext, the nonterminals are labeled according to
+which constituents cover the nonterminal span on the parsed side of
+the bitext.
 \begin{center}
 \begin{tabular}{c}
-  {\small \tt [NP] $\Rightarrow$  ne [V,1] pas | did not [V,1] } \\
-  {\small \tt [VP] $\Rightarrow$  a b [V,1] | c d [X,1] } 
+  {\small \tt [VP]} $\Rightarrow$ {\small \tt [VBN,1]} sans {\small
+    \tt [NP,2]} $\vert$ $\mathit{VBN}_1$ without {\small \tt [NP,2]} \\
+  {\small \tt [NP]} $\Rightarrow$ {\small \tt [NP,1]} sans {\small
+    \tt [NP,2]} 
+  $\vert$ {\small \tt [NP,1]} without {\small \tt [NP,2]} 
 \end{tabular}
 \end{center}
-To ensure good coverage, SAMT concatenates syntactic constituents or
-uses CCG-style labels when there is no single constituent covering a
-span. The resulting grammar allows for derivations that take into
-account the syntactic
+To ensure good coverage, the SAMT approach concatenates syntactic
+constituents or uses CCG-style labels when there is no single
+constituent spanning a nonterminal. The resulting grammar 
+
+\joshua's decoder supports SAMT-style grammars as well as non-syntactic
+nonterminal annotations. An SAMT grammar  
 
 \section{Specifying Constraints on Translation}
 
