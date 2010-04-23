@@ -7,8 +7,9 @@ digraph G {
 		Scripts [style=solid,color=grey,label="WMT Scripts"]
 		SRILM [style=solid,color=grey,label="SRILM"]
 		BerkeleyAligner [style=solid,color=grey,label="Berkeley Aligner"]
-		Hiero [style=solid,color=grey]
-		Joshua [style=solid,color=grey]
+		Hiero [label="Hiero Grammar Extractor",style=solid,color=grey]
+		JoshuaDecoder [style=solid,color=grey,label="Joshua Decoder"]
+		ZMERT [style=solid,color=grey,label="Z-MERT"]
 	//}
 
 	//subgraph clusterPreprocess { label="Preprocess Data";
@@ -42,6 +43,8 @@ digraph G {
 			RecaseMBR [label="Truecase MBR"]
 	//	}
 		
+		Tokenize -> Recase
+
 		// Preprocessing dependencies
 		OriginalData -> OriginalDataUnzipped	
 		OriginalDataUnzipped -> RemoveXML
@@ -78,7 +81,7 @@ digraph G {
 
 
 		// Preprocessing tools dependencies
-		Scripts -> RemoveXML [color=grey]
+//		Scripts -> RemoveXML [color=grey]
 		Scripts -> Tokenize [color=grey]
 		Scripts -> Normalize [color=grey]
 		
@@ -87,15 +90,20 @@ digraph G {
 		
 		BerkeleyAligner -> Align [color=grey]
 		
+		JoshuaGrammar [label="Joshua Grammar Extractor",color=grey,style=solid]
+
 		Hiero -> Grammar [color=grey]
-		Joshua -> Grammar [color=grey]
+		JoshuaGrammar -> Grammar [color=grey]
 		
-		Joshua -> MERT [color=grey]
-		Joshua -> Translate [color=grey]
-		Joshua -> Recase [color=grey]
-		Joshua -> RecaseGrammar [color=grey]
+		ZMERT -> MERT [color=grey]
+		JoshuaDecoder -> Translate [color=grey]
+		JoshuaDecoder -> Recase [color=grey]
+		JoshuaGrammar -> RecaseGrammar [color=grey]
 		
-		//Joshua -> Subsample [color=grey]
-		//Joshua -> RecaseSubsample [color=grey]
+		JoshuaSubsampler [label="Joshua Subsampler",color=grey]
+		JoshuaSubsampler -> Subsample [color=grey]
+		JoshuaSubsampler -> RecaseSubsample [color=grey]
+
+		
 
 		}

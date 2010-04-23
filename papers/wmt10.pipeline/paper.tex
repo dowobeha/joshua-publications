@@ -141,7 +141,7 @@ Because of the use of subsampling, the extracted translation grammars are target
 
 Our experiments used hierarchical phrase-based grammars containing exactly two nonterminals - the wildcard nonterminal X, and S, used to glue together neighboring constituents. Recent work has shown that parsing-based machine translation using SAMT \cite{samt2006} grammars with rich nonterminal sets can demonstrate substantial gains over hierarchical grammars for certain language pairs \cite{SCALE-report}. Joshua supports such grammars; the experimental workflow presented here could easily be extended in future research to incorporate the use of SAMT grammars with additional language pairs. 
 
-The Z-MERT implementation \cite{Zaidan2009} of minimum error rate training \cite{Och2003c} was used for parameter tuning. Tuned grammars were used by Joshua to translate all test sets. The Joshua decoder produces n-best lists of translations. 
+The Z-MERT implementation \cite{Zaidan2009} of minimum error rate training \cite{Och2003c} was used for parameter tuning\footnote{Z-MERT seed value was set to 12341234}. Tuned grammars were used by Joshua to translate all test sets. The Joshua decoder produces n-best lists of translations. 
 
 Rather than simply selecting the top candidate from each list, we take the preferred candidate after perform minimum Bayes risk rescoring \cite{Kumar2004b}.
 
