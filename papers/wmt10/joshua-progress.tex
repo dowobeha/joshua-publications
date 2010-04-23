@@ -15,7 +15,7 @@
 \usepackage{times}
 \usepackage{url}
 \usepackage{latexsym}
-\usepackage[colorlinks]{hyperref}
+%\usepackage[colorlinks]{hyperref}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{xspace}
 
@@ -84,16 +84,16 @@ principles of software engineering to achieve three
 major goals: extensibility, end-to-end coherence,
 and scalability.
 
-The toolkit has then been used by the authors and several
+The toolkit has been used by the authors and several
 other groups in their daily research, and thus much progress has
 been made to the first version. 
-In this paper, we will describe the main new functions we have added into the 
+In this paper, we describe the main new functions we have added into the 
 toolkit, which include: 
 \begin{itemize}
 \item
-supporting for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
+supporting for syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
 \item
-supporting mannual constraints in the input to constrain the decoding \cite{PBML-2010-Josua-transliteration},  
+supporting manual constraints in the input to constrain the decoding \cite{PBML-2010-Josua-transliteration},  
 \item
 lattice parsing for dealing with input uncertainty \cite{dyer-muresan-resnik:2008:ACLMain},
 \item
@@ -105,7 +105,7 @@ hypergraph-based discriminative training for better feature engineering \cite{zh
 \item
 visualization of the derivation trees and hypergraphs \cite{PBML-2010-Josua-visualization}, 
 \item
-and a unified pipeline for MT experiments \cite{Schwartz-wmt10-pipline}.
+and a unified framework for designing and running reproducible machine translation experiments \cite{Schwartz-wmt10-pipline}.
 \end{itemize}
 Below we give a short description for each of the new functions added.
 
@@ -229,6 +229,8 @@ could be improved.
 
 \section{MT Pipeline}
 \todo{lane}
+
+
 
 \bibliographystyle{acl}
 \bibliography{machinetranslation}
