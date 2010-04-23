@@ -57,11 +57,15 @@ $\star$ Natural Language Processing Lab, University of Minnesota, Minneapolis, M
 \begin{abstract}
 We describe the progress we have made in the past year to \textbf{Joshua} \cite{joshua-wmt09}, 
 an open-source toolkit for parsing-based machine translation.
-The main new functions we have added into the toolkit include: supporting for the syntax-augmented machine translation (SAMT) grammar,
+The main new functions we have added into the toolkit include: 
+supporting for the syntax-augmented machine translation (SAMT) grammar,
 supporting mannual constraints in the input to constrain the decoding,  
-semiring parsing for unified dynamic programming, hypergraph-based 
-discriminative training for better feature engineering, visualization of the derivation
-trees and hypergraphs, and a unified pipeline for MT experiments.
+lattice parsing for dealing with input uncertainty,
+semiring parsing for unified dynamic programming, 
+variational decoding for approximating the intractable MAP decoding,
+hypergraph-based discriminative training for better feature engineering, 
+visualization of the derivation trees and hypergraphs, 
+and a unified pipeline for MT experiments.
 \end{abstract}
 
 
@@ -72,7 +76,7 @@ trees and hypergraphs, and a unified pipeline for MT experiments.
 \textbf{Joshua} \cite{joshua-wmt09} is an open-source toolkit (written in Java) for parsing-based machine translation.
 The first version implemented all the essential algorithms described 
 in \newcite{hiero-2007}: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  
-The initial release also implemented suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007} 
+It also implemented suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007} 
 and minimum error rate training \cite{och-mert}. 
 Additionally, parallel and distributed computing techniques were exploited 
 to make it scalable \cite{Joshua-old}. In the design of \joshua, we have applied general
@@ -83,14 +87,26 @@ and scalability.
 The toolkit has then been used by the authors and several
 other groups in their daily research, and thus much progress has
 been made to the first version. 
-In this report, we will describe the main new functions we have added into the 
-toolkit, which include: supporting for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
-supporting manual constraints in the input to constrain the decoding \cite{PBML-2010-Josua-transliteration},  
-semiring parsing for unified dynamic programming \cite{li-eisner:2009:EMNLP}, 
-hypergraph-based discriminative training for better feature engineering \cite{oracle-extraction-naacl09}, 
+In this paper, we will describe the main new functions we have added into the 
+toolkit, which include: 
+\begin{itemize}
+\item
+supporting for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
+\item
+supporting mannual constraints in the input to constrain the decoding \cite{PBML-2010-Josua-transliteration},  
+\item
+lattice parsing for dealing with input uncertainty \cite{dyer-muresan-resnik:2008:ACLMain},
+\item
+semiring parsing for unified dynamic programming \cite{li-eisner:2009:EMNLP} , 
+\item
+variational decoding for approximating the intractable MAP decoding \cite{variational-decoding-acl09},
+\item
+hypergraph-based discriminative training for better feature engineering \cite{zhifei-forest-reranking-galebook}, 
+\item
 visualization of the derivation trees and hypergraphs \cite{PBML-2010-Josua-visualization}, 
+\item
 and a unified pipeline for MT experiments \cite{Schwartz-wmt10-pipline}.
-
+\end{itemize}
 Below we give a short description for each of the new functions added.
 
 
@@ -176,7 +192,7 @@ the risk and its gradient can be computed using a second-order expectation semir
 For optimization, we use both L-BFGS\footnote{http://en.wikipedia.org/wiki/L-BFGS} 
 and Rprop\footnote{http://en.wikipedia.org/wiki/Rprop}.
 
-We have also implemented the average Peceptron algorithm and the forest-reranking \cite{zhifei-forest-reranking-galebook}.
+We have also implemented the average Perceptron algorithm and the forest-reranking \cite{zhifei-forest-reranking-galebook}.
 Since the reference translation may not be in the hypergraph due to pruning or inherent
 defficiency of the translation grammar, we need to use an {\em oracle translation} (i.e., the translation in
 the hypergraph that is most simmilar to the reference translation) as a surrogate for training.
