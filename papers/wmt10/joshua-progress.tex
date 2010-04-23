@@ -20,93 +20,101 @@
 %\setlength\titlebox{6.5cm}    % You can expand the title box if you
 % really have to
 
-\title{Joshua: An Open Source Toolkit for Parsing-based Machine Translation\thanks{ 
-Please cite Li et al. (2009a) if you use Joshua in your research, and not this paper. }}
+\newcommand{\joshua}{\textbf{Joshua}}
+
+\title{2010 Progress Report to Joshua Toolkit : An Open Source Toolkit for Parsing-based Machine Translation\thanks{ 
+Please cite Li et al. (2009a) if you use Joshua in your research, and not this paper.}}
 
 \author{
 Zhifei Li,\,\,\,
 Chris Callison-Burch,\,\,\,
-Chris Dyer,$^\dagger$\,\,\,
+%Chris Dyer,$^\dagger$\,\,\,
 Juri Ganitkevitch,\,\,\,
 Ann Irvine,\,\,\, 
-Sanjeev Khudanpur,\,\,\,\\ {\bf
+%Sanjeev Khudanpur,\,\,\,
 Lane Schwartz,$^\star$\,\,\, 
+\\ {\bf
 Wren N.\,G.\,Thornton,\,\,\,
 Ziyuan Wang,\,\,
 Jonathan Weese\,\,
 {\textnormal{and}}
 \,\,\,Omar F. Zaidan}\\
 Center for Language and Speech Processing, Johns Hopkins University, Baltimore, MD\\
-$\dagger$ Computational Linguistics and Information Processing Lab, University of Maryland, College Park, MD\\
+%$\dagger$ Computational Linguistics and Information Processing Lab, University of Maryland, College Park, MD\\
 $\star$ Natural Language Processing Lab, University of Minnesota, Minneapolis, MN }
 
 
 \date{}
 
 \begin{document}
-\maketitle
 
+
+\maketitle
 \begin{abstract}
- This paper describes Joshua 2.0, an open source hierarchical phrase-based statistical machine translation system.
+We describe the progress we have made in the past year to \textbf{Joshua} \cite{joshua-wmt09}, 
+an open-source toolkit for parsing-based machine translation.
+The main new functions we have added into the toolkit include: supporting for the syntax-augmented machine translation (SAMT) grammar,
+supporting mannual constraints in the input to constrain the decoding,  
+semiring parsing for unified dynamic programming, hypergraph-based 
+discriminative training for better feature engineering, visualization of the derivation
+trees and hypergraphs, and a unified pipeline for MT experiments.
 \end{abstract}
 
+
 \listoftodos
+
+\section{Introduction}
+
+\textbf{Joshua} \cite{joshua-wmt09} is an open-source toolkit (written in Java) for parsing-based machine translation.
+In the first version, it  has inimplemented all the essential algorithms described 
+in \newcite{hiero-2007}: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  
+It has also implemented suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007} 
+and minimum error rate training \cite{och-mert}. 
+Additionally, parallel and distributed computing techniques have been exploited 
+to make it scalable \cite{Joshua-old}. In the design of \joshua, we have applied general
+principles of software engineering to achieve three
+major goals: extensibility, end-to-end coherence,
+and scalability.
+
+The toolkit has then been used by the authors and several
+other groups in their daily research, and thus much progress has
+been made to the first version. 
+In this report, we will describe the main new functions we have added into the 
+toolkit, which include: supporting for the syntax-augmented machine translation (SAMT) grammar \cite{???},
+supporting mannual constraints in the input to constrain the decoding \cite{???},  
+semiring parsing for unified dynamic programming \cite{li-eisner:2009:EMNLP}, 
+hypergraph-based discriminative training for better feature engineering \cite{oracle-extraction-naacl09}, 
+visualization of the derivation trees and hypergraphs \cite{???}, 
+and a unified pipeline for MT experiments \cite{???}.
+
+Below we give a short description for each of the new functions added.
+
 
 \section{Supporting SAMT}
 \todo{juri or ccb}
 
+
+\section{Supporting Manual Constraints}
+\todo{anni}
+
 \section{Semiring Parsing}
 \todo{zhifei}
+
+\cite{li-eisner:2009:EMNLP}
 
 \section{Discriminative Training}
 \todo{zhifei}
 
+\cite{variational-decoding-acl09}
+\cite{oracle-extraction-naacl09}
+
 \section{Visualization}
 \todo{jonny}
 
-\section{Manual Constraints}
-\todo{anni}
+\section{MT Pipeline}
+\todo{lane}
 
-%\todo{Add info about grammar extraction; MT Marathon paper and speedups}
-%
-%\section{Results}
-%
-%\todo{Describe results}
-%
-%\begin{table}[h]
-%\begin{center}
-%\begin{tabular}{|l|l||c|c|c|}
-%\hline
-%\bf Source & \bf Target & \bf BLEU & \bf BLEU- & \bf TER \\
-%& & & \bf cased & \\
-%\hline
-%German & English & 21.3 & 19.5 & 0.660 \\ \hline
-%English & German & 15.2  & 14.6  & 0.738 \\ \hline
-%French & English & 27.7 & 26.4 & 0.614 \\ \hline
-%English & French & 23.8 & 22.8 & 0.681 \\ \hline
-%Spanish & English & 29.0 & 27.6 & 0.595 \\ \hline
-%English & Spanish & 28.1 & 26.5 & 0.596  \\ \hline
-%\end{tabular}
-%\end{center}
-%\caption{\label{scores} Automatic metric scores for the test set newstest2010 }
-%\end{table}
-%
-%
-%\begin{table}[h]
-%\begin{center}
-%\begin{tabular}{|l|l||c|}
-%\hline
-%\bf Source & \bf Target & \bf BLEU  \\
-%\hline
-%German & English & 18.19  \\ \hline
-%English & German & 13.57 \\ \hline
-%French & English & 26.41 \\ \hline
-%English & French & 25.28 \\ \hline
-%Spanish & English & 25.28 \\ \hline
-%English & Spanish & 24.02  \\ \hline
-%\end{tabular}
-%\end{center}
-%\caption{\label{devtest-scores} Automatic metric scores for the development test set newstest2009}
-%\end{table}
+\bibliographystyle{acl}
+\bibliography{machinetranslation}
 
 \end{document}
