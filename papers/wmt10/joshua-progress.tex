@@ -72,7 +72,7 @@ and a cleaner pipeline for MT experiments.
 
 \section{Introduction}
 
-\textbf{Joshua} is an open-source toolkit for parsing-based machine translation that is written in Java. The initial release of Joshua  \cite{joshua-wmt09} was a re-implementation of the Hiero system \cite{hiero-2007} and all its associated algorithms, including: chart parsing, $n$-gram language model integration, beam and cube pruning, and $k$-best extraction.  The Joshua 1.0 release also included re-implementations of suffix array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction}  and minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
+\textbf{Joshua} is an open-source toolkit for parsing-based machine translation that is written in Java. The initial release of \joshua  \cite{joshua-wmt09} was a re-implementation of the Hiero system \cite{hiero-2007} and all its associated algorithms, including: chart parsing, $n$-gram language model integration, beam and cube pruning, and $k$-best extraction.  The \joshua 1.0 release also included re-implementations of suffix array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction}  and minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
 
 This paper describes the additions to the toolkit over the past year, which together form the 2.0 release. The software has been heavily used by the authors and several other groups in their daily research, and has been substantially refined since the first release.  The most important new functions in the toolkit are: 
 \begin{itemize}
@@ -104,7 +104,7 @@ The sections below give short descriptions for each of these new functions.
 
 \section{Specifying Constraints on Translation}
 
-Integrating output from specialized modules (like transliterators, morphological analyzers, and modality translators) into the MT pipeline can improve translation performance, particularly for low-resource languages. We have implemented an XML interface that allows external modules to propose alternate translation rules (constraints) for a particular word span to the decoder \cite{PBML-2010-Joshua-modules}. Processing that is separate from the MT engine can suggest translations for some set of source side words and phrases. The XML format allows for both hard constraints, which must be used, and soft constraints, which compete with standard extracted translation rules, as well as specifying associated feature weights. In addition to specifying translations, the XML format allows constraints on the lefthand side of SCFG rules, which allows constraints like forcing a particular span to be translated as an NP.  We modified Joshua's chart-based decoder to support these constraints. 
+Integrating output from specialized modules (like transliterators, morphological analyzers, and modality translators) into the MT pipeline can improve translation performance, particularly for low-resource languages. We have implemented an XML interface that allows external modules to propose alternate translation rules (constraints) for a particular word span to the decoder \cite{PBML-2010-Joshua-modules}. Processing that is separate from the MT engine can suggest translations for some set of source side words and phrases. The XML format allows for both hard constraints, which must be used, and soft constraints, which compete with standard extracted translation rules, as well as specifying associated feature weights. In addition to specifying translations, the XML format allows constraints on the lefthand side of SCFG rules, which allows constraints like forcing a particular span to be translated as an NP.  We modified \joshua's chart-based decoder to support these constraints. 
 
 \section{Semiring Parsing}
 
@@ -192,17 +192,13 @@ feature engineering is possible for MT.
 
 \section{Visualization}
 
-We have introduced tools for visualizing two of the main data structures used
-in Joshua \cite{PBML-2010-Joshua-visualization}. Each visualization tool is implemented as a
-stand-alone program that hooks into the pipeline, but they are distributed with
-Joshua. The first program is a hypergraph visualizer. The user can choose from
+We created tools for visualizing two of the main data structures used
+in \joshua \cite{PBML-2010-Joshua-visualization}. The first visualizer displays hypergraphs. The user can choose from
 a set of input sentences, then call the decoder to build the hypergraph.
-
-The second is a derivation-tree visualizer. Joshua can produce output formatted
-as a parse tree, where each nonterminal has been annotated with its source-side
+The second  visualizer displays derivation trees. Setting a flag in the configuration file causes the decoder to output parse trees instead of strings, where each nonterminal is annotated with its source-side
 span. The visualizer can read in multiple n-best lists in this format, then
 display the resulting derivation trees side-by-side. We have found that
-visually inspecting these derivation trees is advantageous in debugging many
+visually inspecting these derivation trees is useful for debugging
 grammars.
 
 We would like to add visualization tools for more parts of the pipeline. For
@@ -214,7 +210,7 @@ could be improved.
 
 \section{Pipeline for Running MT Experiments}
 
-Reproducing other researchers' machine translation experiments is difficult because the pipeline is too complex to fully detail in short conference papers. We have put together a workflow framework for designing and running reproducible machine translation experiments using Joshua \newcite{Schwartz-wmt10-pipline}. Each step in the machine translation workflow (data preprocessing, grammar training, MERT, decoding, etc) is modeled by a Make script that defines how to run the tools used in that step, and an auxiliary configuration file that defines the exact parameters to be used in that step for a particular experimental setup. Workflows configured using this framework allow a complete experiment to be run - from downloading data and software through scoring the final translated results - by executing a single Makefile.
+Reproducing other researchers' machine translation experiments is difficult because the pipeline is too complex to fully detail in short conference papers. We have put together a workflow framework for designing and running reproducible machine translation experiments using \joshua \newcite{Schwartz-wmt10-pipline}. Each step in the machine translation workflow (data preprocessing, grammar training, MERT, decoding, etc) is modeled by a Make script that defines how to run the tools used in that step, and an auxiliary configuration file that defines the exact parameters to be used in that step for a particular experimental setup. Workflows configured using this framework allow a complete experiment to be run - from downloading data and software through scoring the final translated results - by executing a single Makefile.
 
 This framework encourages researchers to supplement research publications with links to the complete set of scripts and configurations that were actually used to run the experiment. The Johns Hopkins University submission to the WMT10 shared translation task was implemented in this framework, and can be easily and exactly reproduced by other researchers by typing a single command. 
 \bibliographystyle{acl}
