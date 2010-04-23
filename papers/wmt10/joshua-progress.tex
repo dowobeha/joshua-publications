@@ -59,7 +59,7 @@ We describe the progress we have made in the past year to \textbf{Joshua} \cite{
 an open-source toolkit for parsing-based machine translation.
 The main new functions we have added into the toolkit include: 
 supporting for the syntax-augmented machine translation (SAMT) grammar,
-supporting mannual constraints in the input to constrain the decoding,  
+support for external modules to posit translations for spans in the input sentence that constrain decoding,  
 lattice parsing for dealing with input uncertainty,
 semiring parsing for unified dynamic programming, 
 variational decoding for approximating the intractable MAP decoding,
@@ -91,9 +91,9 @@ In this paper, we describe the main new functions we have added into the
 toolkit, which include: 
 \begin{itemize}
 \item
-supporting for syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
+support for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
 \item
-supporting manual constraints in the input to constrain the decoding \cite{PBML-2010-Josua-transliteration},  
+support for external modules to posit translations for spans in the input sentence that constrain decoding,    \cite{PBML-2010-Josua-transliteration},  
 \item
 lattice parsing for dealing with input uncertainty \cite{dyer-muresan-resnik:2008:ACLMain},
 \item
@@ -114,7 +114,7 @@ Below we give a short description for each of the new functions added.
 \todo{juri or ccb}
 
 
-\section{Manual Constraints on the Input}
+\section{Specifying Constraints on the Rules}
 \todo{anni}
 
 \section{Lattice Parsing}
