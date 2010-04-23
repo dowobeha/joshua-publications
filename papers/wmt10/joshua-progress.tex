@@ -103,7 +103,8 @@ The sections below give a short description of each of these new functions.
 
 
 \section{Specifying Constraints on Rules}
-\todo{anni}
+
+Integrating output from specialized modules (like transliterators, morphological analyzers, and modality translators) into the MT pipeline can improve translation performance, particularly in low-resource settings. We have implemented this functionality in Joshua by supporting an XML format for proposing alternate translation rules (constraints) for a particular word span to the decoder \cite{pbml-2010-Joshua-modules}. That is, processing that is separate from the MT engine can suggest translations for some set of source side words and phrases. The XML format allows for both hard constraints, which must be used, and soft constraints, which compete with standard extracted translation rules, as well as specifying associated feature weights. We modified the chart-based decoder to support these constraints. 
 
 \section{Semiring Parsing}
 
@@ -194,7 +195,7 @@ feature engineering is possible for MT.
 \section{Visualization}
 
 We have introduced tools for visualizing two of the main data structures used
-in Joshua \cite{PBML-2010-Joshua-visualization}. Each visualization tool is implemented as a
+in Joshua \cite{PBML-2010-Joshua-transliteration}. Each visualization tool is implemented as a
 stand-alone program that hooks into the pipeline, but they are distributed with
 Joshua. The first program is a hypergraph visualizer. The user can choose from
 a set of input sentences, then call the decoder to build the hypergraph.
