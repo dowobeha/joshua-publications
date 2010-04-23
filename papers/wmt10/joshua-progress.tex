@@ -72,11 +72,11 @@ and a cleaner pipeline for MT experiments.
 
 \section{Introduction}
 
-\textbf{Joshua} \cite{joshua-wmt09} is an open-source toolkit for parsing-based machine translation (written in Java). 
-The first version implemented all the essential algorithms described 
+\textbf{Joshua} is an open-source toolkit for parsing-based machine translation (written in Java). 
+The initial release of Joshua  \cite{joshua-wmt09} implemented all the essential algorithms described 
 in \newcite{hiero-2007}: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  
-It also implemented suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007} 
-and minimum error rate training \cite{och-mert}. 
+It also implemented suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction} 
+and minimum error rate training \cite{och-mert,Zaidan2009}. 
 Additionally, parallel and distributed computing techniques were exploited 
 to make it scalable \cite{Joshua-old}. In the design of \joshua, we have applied general
 principles of software engineering to achieve three
@@ -92,7 +92,7 @@ toolkit, which include:
 \item
 support for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
 \item
-support for external modules to posit translations for spans in the input sentence that constrain decoding,    \cite{PBML-2010-Josua-transliteration},  
+support for external modules to posit translations for spans in the input sentence that constrain decoding,    \cite{PBML-2010-Joshua-transliteration},  
 \item
 lattice parsing for dealing with input uncertainty \cite{dyer-muresan-resnik:2008:ACLMain},
 \item
@@ -102,7 +102,7 @@ variational decoding for approximating the intractable MAP decoding \cite{variat
 \item
 hypergraph-based discriminative training for better feature engineering \cite{zhifei-forest-reranking-galebook}, 
 \item
-visualization of the derivation trees and hypergraphs \cite{PBML-2010-Josua-visualization}, 
+visualization of the derivation trees and hypergraphs \cite{PBML-2010-Joshua-visualization}, 
 \item
 and a unified framework for designing and running reproducible machine translation experiments \cite{Schwartz-wmt10-pipline}.
 \end{itemize}
@@ -205,7 +205,7 @@ feature engineering is possible for MT.
 \section{Visualization}
 
 We have introduced tools for visualizing two of the main data structures used
-in Joshua \cite{PBML-2010-Josua-visualization}. Each visualization tool is implemented as a
+in Joshua \cite{PBML-2010-Joshua-visualization}. Each visualization tool is implemented as a
 stand-alone program that hooks into the pipeline, but they are distributed with
 Joshua. The first program is a hypergraph visualizer. The user can choose from
 a set of input sentences, then call the decoder to build the hypergraph.
