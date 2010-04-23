@@ -72,22 +72,9 @@ and a cleaner pipeline for MT experiments.
 
 \section{Introduction}
 
-\textbf{Joshua} is an open-source toolkit for parsing-based machine translation (written in Java). 
-The initial release of Joshua  \cite{joshua-wmt09} implemented all the essential algorithms described 
-in \newcite{hiero-2007}: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  
-It also implemented suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction} 
-and minimum error rate training \cite{och-mert,Zaidan2009}. 
-Additionally, parallel and distributed computing techniques were exploited 
-to make it scalable \cite{Joshua-old}. In the design of \joshua, we have applied general
-principles of software engineering to achieve three
-major goals: extensibility, end-to-end coherence,
-and scalability.
+\textbf{Joshua} is an open-source toolkit for parsing-based machine translation (written in Java). The initial release of Joshua  \cite{joshua-wmt09} was a re-implementation of the Hiero system \cite{hiero-2007} and all its associated algorithms, including: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  The Joshua release also included re-implementations of suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction}  and minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
 
-The toolkit has been used by the authors and several
-other groups in their daily research, and thus much progress has
-been made to the first version. 
-In this paper, we describe the main new functions we have added into the 
-toolkit, which include: 
+This paper describes the additions to the toolkit over the past year, which together form the 2.0 release. The software has been heavily used by the authors and several other groups in their daily research, and has been substantially refined since the first release.  The most important new functions in the toolkit are: 
 \begin{itemize}
 \item
 support for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
