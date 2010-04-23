@@ -228,9 +228,12 @@ could be improved.
 
 
 \section{MT Pipeline}
-\todo{lane}
 
+Many research publications describe novel techniques and provide interesting results, yet fail to describe technical details in sufficient detail to allow their results to be reproduced by other researchers. Reproducibility in machine translation is made more challenging by the complexity of experimental workflows. Results in machine translation tasks are dependent on a cascade of processing steps and configurations. 
 
+\newcite{Schwartz-wmt10-pipline} describes a workflow framework for designing and running reproducible machine translation experiments using Joshua. Each step in the machine translation workflow (data preprocessing, grammar training, MERT, decoding, etc) is modeled by a GNU Make script which defines how to run the tools used in that step, and an auxiliary configuration file that defines the exact parameters to be used in that step during a particular run of an experiment. Workflows configured using this framework allow a complete experiment to be run - from downloading data and software through truecasing translated results - by executing a single make file.
+
+This framework encourages researchers to supplement research publications with links to the complete set of scripts and configurations that were actually used to run the experiment. The scripts and configurations used to run the Johns Hopkins University submission to the 2010 WMT shared translation task are provided in \newcite{Schwartz-wmt10-pipline}.
 
 \bibliographystyle{acl}
 \bibliography{machinetranslation}
