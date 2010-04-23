@@ -26,6 +26,7 @@ Baltimore, MD\\
 \maketitle
 
 \begin{abstract}
+We present the JHU submission to the 2010 WMT shared translation task. We describe processing steps using open data and open source software used in our submission, and provide the scripts and configurations required to train, tune, and test the machine translation system described herein.
 \end{abstract}
 
 
@@ -135,22 +136,32 @@ Given a subsampled parallel training corpus, word alignment is performed using t
 
 For each language pair, a synchronous context free translation grammar is extracted for a particular test set, following the methods of \newcite{Lopez2008} as implemented in \cite{Schwartz-PBML}. For the largest training sets (French-English and English-French) the original \cite{Lopez2008} implementation included with Hiero was used to save time during training\footnote{It is expected that using the Joshua implementation should result in nearly identical results, albeit with somewhat more time required to extract the grammar.}.
 
-Our experiments used hierarchical phrase-based grammars containing exactly two nonterminals - the wildcard nonterminal X, and S, used to glue together neighboring constituents. Recent work has shown that parsing-based machine translation using SAMT \cite{samt2006} grammars with rich nonterminal sets can demonstrate substantial gains over hierarchical grammars for certain language pairs \cite{SCALE-report}. Joshua supports such grammars; the experimental workflow presented here could easily be extended in future research to incorporate the use of SAMT grammars with additional language pairs. The Z-MERT implementation \cite{Zaidan2009} of minimum error rate training was used for parameter tuning. Tuned grammars were used by Joshua to translate all test sets. 
+Because of the use of subsampling, the extracted translation grammars are targeted for use with a specific test set. Our experiments were begun prior to the release of the blind newstest2010 shared task test set. Subsampling was performed using the development tuning set, news-test2008, and the development test set, newstest2009. Once the newstest2010 test set was released, the process of subsampling, alignment, and grammar extraction was repeated to obtain translation grammars targeted for use with the shared task test set. 
 
-The code used for subsampling, grammar extraction, decoding, and minimum error rate training is provided with Joshua\footnote{http://sourceforge.net/projects/joshua/files/joshua/1.3/joshua-1.3.tgz/download --- Joshua version 1.3}, with the exception of the original \cite{Lopez2008} grammar extraction code.
+Our experiments used hierarchical phrase-based grammars containing exactly two nonterminals - the wildcard nonterminal X, and S, used to glue together neighboring constituents. Recent work has shown that parsing-based machine translation using SAMT \cite{samt2006} grammars with rich nonterminal sets can demonstrate substantial gains over hierarchical grammars for certain language pairs \cite{SCALE-report}. Joshua supports such grammars; the experimental workflow presented here could easily be extended in future research to incorporate the use of SAMT grammars with additional language pairs. 
 
+The Z-MERT implementation \cite{Zaidan2009} of minimum error rate training \cite{Och2003c} was used for parameter tuning. Tuned grammars were used by Joshua to translate all test sets. The Joshua decoder produces n-best lists of translations. 
 
+Rather than simply selecting the top candidate from each list, we take the preferred candidate after perform minimum Bayes risk rescoring \cite{Kumar2004b}.
 
-
-
-
-
-
+Once a single translation has been extracted for each sentence in the test set, we repeat the procedures described above to train language and translation models for use in translating lowercased results into a more human-readable truecased form. A truecase language model is trained as above, but on the tokenized (but not normalized) monolingual target language corpus. Monotone word alignments are deterministically created, mapping normalized lowercase training text to the original truecase text. As in bilingual translation, subsampling is performed for the training set, and a translation grammar for lowercase-to-truecase is extracted. No tuning is performed. The Joshua decoder is used to translate the lowercased target language test results into truecase format. The {\tt detokenize.perl} and {\tt wrap-xml.perl} scripts provided for the shared task were manually applied to truecased translation results prior to final submission of results.
 
 
+The code used for subsampling, grammar extraction, decoding, minimum error rate training, and minimum Bayes risk rescoring is provided with Joshua\footnote{http://sourceforge.net/projects/joshua/files/joshua/1.3/joshua-1.3.tgz/download --- Joshua version 1.3}, with the exception of the original \cite{Lopez2008} grammar extraction implementation.
 
-\section{Reproducible Results}
+
+
+
+
+
+
+
+
+
+\section{Experimental Results}
 \label{Results}
+
+The experiments described in sections \ref{Framework} and \ref{Design} above provided truecased translations for six language pairs in the translation shared task: English-French, English-German, English-Spanish, French-English, German-English, and Spanish-English. Table \ref{scores} lists the automatic metric scores for the newstest2010 test set, according to the BLEU \cite{Papineni2002} and TER \cite{TER} metrics. 
 
 \begin{table}[h]
 \begin{center}
@@ -170,6 +181,9 @@ English & Spanish & 28.1 & 26.5 & 0.596  \\ \hline
 \caption{\label{scores} Automatic metric scores for the test set newstest2010 }
 \end{table}
 
+The submitted system ranked highest among shared task participants for the German-English task, according to TER.
+
+In order to provide points of comparison with the 2009 Workshop on Statistical Machine Translation shared translation task participants,  table \ref{devtest-scores} lists automatic metric scores for our systems' translations of the newstest2009 test set, which we used as a development test set.
 
 \begin{table}[h]
 \begin{center}
