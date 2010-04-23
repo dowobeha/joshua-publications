@@ -17,10 +17,13 @@
 \usepackage{latexsym}
 \usepackage[colorlinks]{hyperref}
 \usepackage[colorinlistoftodos]{todonotes}
+\usepackage{xspace}
+
 %\setlength\titlebox{6.5cm}    % You can expand the title box if you
 % really have to
 
-\newcommand{\joshua}{\textbf{Joshua}}
+\newcommand{\joshua}{\textbf{Joshua}\xspace}
+\newcommand{\Q}{\mathcal{Q}}
 
 \title{Joshua 2.0: A Toolkit for Parsing-Based Machine Translation \\with Syntax, Semirings, Discriminative Training and Other Goodies }
 
@@ -135,19 +138,29 @@ Bayes risk, variance of hypothesis length, gradient of entropy and Bayes risk, c
 % The semiring can also be used for second-order gradient optimization algorithms.
 
 \section{Variational Decoding}
+
 Statistical models in machine translation exhibit spurious ambiguity.
 That is, the probability of an output string is split
 among many distinct derivations (e.g., trees or
 segmentations). In principle, the goodness of a
 string is measured by the total probability of its
 many derivations. However, finding the best string
-(e.g., during decoding) is then computationally intractable.
-Therefore, the first version implemented the Viterbi ?????Joshua most systems use a simple
+(e.g., during decoding) is then NP-hard.
+The first version of \joshua implemented the
 Viterbi approximation that measures the goodness 
 of a string using only its most probable derivation.
 
-Instead, we develop a variational approximation \cite{variational-decoding-acl09},
-which considers all the derivations but still
+The Viterbi approximation is efficient, but ignores most of the derivations in the hypergraph.
+We implemented the variational decoding \cite{variational-decoding-acl09}, which works as follows.
+Given a foreign string, the MT system first produces a hypergraph, 
+which encodes a probability distribution $p$ over 
+possible output strings and their derivations.
+The variational decoding constructs a second distribution $q \in \Q$ 
+that approximates $p$ as well as possible, 
+and then finds the best string according to $q$ (instead of $p$).
+The $q$ distribution is parameterized by an $n$-gram model, under which 
+the last two steps can be performed efficiently via dynamic programming.
+In this way, variational decoding considers all the derivations but still
 allows tractable decoding. 
 
 
