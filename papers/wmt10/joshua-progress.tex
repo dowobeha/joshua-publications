@@ -64,6 +64,8 @@ lattice parsing for dealing with input uncertainty,
 a semiring framework that provides a unified way of doing various dynamic programming calculations, 
 variational decoding for approximating the intractable MAP decoding,
 hypergraph-based discriminative training for better feature engineering, 
+a parallelized MERT module,
+document-level and tail-based MERT,
 visualization of the derivation trees, 
 and a cleaner pipeline for MT experiments.
 \end{abstract}
@@ -90,6 +92,8 @@ A semiring architecture over hypergraphs that allows many inference operations t
 Improvements to decoding through variational decoding and other approximate methods that overcome intractable MAP decoding \cite{variational-decoding-acl09}
 \item
 Hypergraph-based discriminative training for better feature engineering \cite{zhifei-forest-reranking-galebook}
+\item
+A parallelization of MERT's computations, and supporting document-level and tail-based optimization \cite{atypical-mert}
 \item
 Visualization of the derivation trees and hypergraphs \cite{PBML-2010-Joshua-visualization}
 \item
@@ -216,6 +220,38 @@ Given the current infrastructure, other training methods
 can also be easily supported with minimum coding.
 We plan to implement a large number of feature functions in \joshua so that exhaustive 
 feature engineering is possible for MT.
+
+\section{Minimum Error Rate Training}
+
+\joshua's MERT module optimizes parameter weights so as to maximize performance
+on a development set as measuered by an automatic evaluation metric, such as
+Bleu \cite{och-mert}.
+
+We have parallelized our MERT module in two ways: parallelizing the computation
+of metric scores, and parallelizing the search over parameters. The computation
+of metric scores is a computational concern when tuning to a metric that is
+slow to compute, such as translation edit rate \cite{snover-etal:2006:ter}.
+Since scoring a candidate is independent from scoring any other candidate, we
+parallelize this computation using a multi-threaded solution\footnote{Based on
+sample code by Kenneth Heafield.}. Similarly, we parallelize the optimization
+of the intermediate initial weight vectors, also using a multi-threaded
+solution.
+
+Another feature is the module's awareness of document information, and the
+capability to perform optimization of {\em document-based} variants of the
+automatic metric \cite{atypical-mert}. For example, in document-based Bleu,
+a Bleu score is calculated {\em for each document}, and the tuned score is the
+average of those document scores. The MERT module can furthermore be instructed
+to target a specific subset of those documents, namely the {\em tail} subset,
+where only the subset of documents with the lowest document Bleu scores are
+considered.\footnote{This feature is of interest to GALE teams, for instance,
+since GALE's evaluation criteria place a lot of focus on translation quality of
+tail documents.}
+
+More details on the MERT method and the
+implementation can be found in \newcite{Zaidan2009}.\footnote{The module
+is also available as a standalone application, {\em Z-MERT}, that can be used
+with other MT systems. (Software and documentation at: \url{http://cs.jhu.edu/~ozaidan/zmert}.)}
 
 \section{Visualization}
 
