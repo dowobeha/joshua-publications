@@ -97,6 +97,9 @@ A convenient framework for designing and running reproducible machine translatio
 \end{itemize}
 The sections below give short descriptions for each of these new functions.
 
+
+\section{Support for Syntax-based Translation}
+
 \section{Support for Syntax-Augmented MT}
 The syntax-augmented approach to hierachical phrase-based machine
 translation introduced by \newcite{samt2006} aims at improving
@@ -233,9 +236,8 @@ could be improved.
 
 \section{Pipeline for Running MT Experiments}
 
-Reproducing other researchers' machine translation experiments is difficult because the pipeline is too complex to fully detail in short conference papers. We have put together a workflow framework for designing and running reproducible machine translation experiments using \joshua \newcite{Schwartz-wmt10-pipline}. Each step in the machine translation workflow (data preprocessing, grammar training, MERT, decoding, etc) is modeled by a Make script that defines how to run the tools used in that step, and an auxiliary configuration file that defines the exact parameters to be used in that step for a particular experimental setup. Workflows configured using this framework allow a complete experiment to be run - from downloading data and software through scoring the final translated results - by executing a single Makefile.
-
-This framework encourages researchers to supplement research publications with links to the complete set of scripts and configurations that were actually used to run the experiment. The Johns Hopkins University submission to the WMT10 shared translation task was implemented in this framework, and can be easily and exactly reproduced by other researchers by typing a single command. 
+Reproducing other researchers' machine translation experiments is difficult because the pipeline is too complex to fully detail in short conference papers. We have put together a workflow framework for designing and running reproducible machine translation experiments using \joshua \cite{Schwartz-wmt10-pipline}. Each step in the machine translation workflow (data preprocessing, grammar training, MERT, decoding, etc) is modeled by a Make script that defines how to run the tools used in that step, and an auxiliary configuration file that defines the exact parameters to be used in that step for a particular experimental setup. Workflows configured using this framework allow a complete experiment to be run -- from downloading data and software through scoring the final translated results -- by executing a single Makefile.
+This framework encourages researchers to supplement research publications with links to the complete set of scripts and configurations that were actually used to run the experiment. The Johns Hopkins University submission for the WMT10 shared translation task was implemented in this framework, so it can be easily and exactly reproduced.
 \bibliographystyle{acl}
 \bibliography{machinetranslation}
 
