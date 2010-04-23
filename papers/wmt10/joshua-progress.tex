@@ -22,7 +22,7 @@
 
 \newcommand{\joshua}{\textbf{Joshua}}
 
-\title{Joshua 2.0: An Open Source Toolkit for Machine Translation \\with Syntax, Semirings and Other Goodies }
+\title{Joshua 2.0: A Toolkit for Parsing-Based Machine Translation \\with Syntax, Semirings and Other Goodies }
 
 \author{
 Zhifei Li,\,\,\,
@@ -81,12 +81,12 @@ The toolkit has then been used by the authors and several
 other groups in their daily research, and thus much progress has
 been made to the first version. 
 In this report, we will describe the main new functions we have added into the 
-toolkit, which include: supporting for the syntax-augmented machine translation (SAMT) grammar \cite{???},
-supporting mannual constraints in the input to constrain the decoding \cite{???},  
+toolkit, which include: supporting for the syntax-augmented machine translation (SAMT) grammar \cite{samt2006},
+supporting manual constraints in the input to constrain the decoding \cite{PBML-2010-Josua-transliteration},  
 semiring parsing for unified dynamic programming \cite{li-eisner:2009:EMNLP}, 
 hypergraph-based discriminative training for better feature engineering \cite{oracle-extraction-naacl09}, 
-visualization of the derivation trees and hypergraphs \cite{???}, 
-and a unified pipeline for MT experiments \cite{???}.
+visualization of the derivation trees and hypergraphs \cite{PBML-2010-Josua-visualization}, 
+and a unified pipeline for MT experiments \cite{Schwartz-wmt10-pipline}.
 
 Below we give a short description for each of the new functions added.
 
@@ -144,7 +144,7 @@ Bayes risk, variance of hypothesis length, gradient of entropy and Bayes risk, c
 \section{Visualization}
 
 We have introduced tools for visualizing two of the main data structures used
-in Joshua \cite{joshua-viz}. Each visualization tool is implemented as a
+in Joshua \cite{PBML-2010-Josua-visualization}. Each visualization tool is implemented as a
 stand-alone program that hooks into the pipeline, but they are distributed with
 Joshua. The first program is a hypergraph visualizer. The user can choose from
 a set of input sentences, then call the decoder to build the hypergraph.
@@ -167,6 +167,6 @@ could be improved.
 \todo{lane}
 
 \bibliographystyle{acl}
-\bibliography{machinetranslation}
+\bibliography{machinetranslation-clean}
 
 \end{document}
