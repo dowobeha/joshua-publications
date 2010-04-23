@@ -7,10 +7,41 @@ digraph G {
 		Scripts [style=solid,color=grey,label="WMT Scripts"]
 		SRILM [style=solid,color=grey,label="SRILM"]
 		BerkeleyAligner [style=solid,color=grey,label="Berkeley Aligner"]
-		Hiero [label="Hiero Grammar Extractor",style=solid,color=grey]
-		JoshuaDecoder [style=solid,color=grey,label="Joshua Decoder"]
-		ZMERT [style=solid,color=grey,label="Z-MERT"]
+		Hiero [label="Hiero",style=solid,color=grey]
 	//}
+
+
+		Hiero -> Grammar [color=grey]
+
+//		JoshuaDecoder [style=solid,color=grey,label="Joshua Decoder"]
+//		JoshuaSubsampler [label="Joshua Subsampler",color=grey]
+//		JoshuaGrammar [label="Joshua Grammar Extractor",color=grey,style=solid]
+//		ZMERT [style=solid,color=grey,label="Z-MERT"]
+//
+//		JoshuaGrammar -> Grammar [color=grey]
+//		ZMERT -> MERT [color=grey]
+//		JoshuaDecoder -> Translate [color=grey]
+//		JoshuaDecoder -> Recase [color=grey]
+//		JoshuaGrammar -> RecaseGrammar [color=grey]
+//		JoshuaSubsampler -> Subsample [color=grey]
+//		JoshuaSubsampler -> RecaseSubsample [color=grey]
+
+
+
+
+		Joshua [style=solid,color=grey,label="Joshua"]
+
+		Joshua -> Grammar [color=grey,group="Joshua"]
+		Joshua -> MERT [color=grey,group="Joshua"]
+		Joshua -> Translate [color=grey,group="Joshua"]
+		Joshua -> Recase [color=grey,group="Joshua"]
+		Joshua -> RecaseGrammar [color=grey,group="Joshua"]
+		Joshua -> Subsample [color=grey,group="Joshua"]
+		Joshua -> RecaseSubsample [color=grey,group="Joshua"]
+		Joshua -> MBR [color="grey",group="Joshua"]
+		Joshua -> RecaseMBR [color="grey",group="Joshua"]
+
+
 
 	//subgraph clusterPreprocess { label="Preprocess Data";
 		OriginalData [label="Download Data"]
@@ -90,19 +121,7 @@ digraph G {
 		
 		BerkeleyAligner -> Align [color=grey]
 		
-		JoshuaGrammar [label="Joshua Grammar Extractor",color=grey,style=solid]
 
-		Hiero -> Grammar [color=grey]
-		JoshuaGrammar -> Grammar [color=grey]
-		
-		ZMERT -> MERT [color=grey]
-		JoshuaDecoder -> Translate [color=grey]
-		JoshuaDecoder -> Recase [color=grey]
-		JoshuaGrammar -> RecaseGrammar [color=grey]
-		
-		JoshuaSubsampler [label="Joshua Subsampler",color=grey]
-		JoshuaSubsampler -> Subsample [color=grey]
-		JoshuaSubsampler -> RecaseSubsample [color=grey]
 
 		
 

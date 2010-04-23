@@ -8,7 +8,11 @@ all: paper.pdf
 paper.tex: figure.pgf.tex
 
 %.pgf.tex: %.dot
-	dot2tex $< --figonly -f pgf -e utf8 --prog=dot -o $@
+	echo "{\\\\scalebox{0.7} {" > $@
+	echo "{\\\\rotatebox{90} {" >> $@
+	dot2tex $< --figonly -f pgf -e utf8 --prog=dot --graphstyle="font=\footnotesize" | grep -v "^$$" >> $@
+	echo "}}" >> $@
+	echo "}}" >> $@
 
 %.pdf: %.tex
 	pdflatex $<
