@@ -102,9 +102,9 @@ The sections below give short descriptions for each of these new functions.
 \todo{juri or ccb}
 
 
-\section{Specifying Constraints on Rules}
+\section{Specifying Constraints on Translation}
 
-Integrating output from specialized modules (like transliterators, morphological analyzers, and modality translators) into the MT pipeline can improve translation performance, particularly for low-resource languages. We have implemented an XML interface that allows external modules to propose alternate translation rules (constraints) for a particular word span to the decoder \cite{PBML-2010-Joshua-modules}. Processing that is separate from the MT engine can suggest translations for some set of source side words and phrases. The XML format allows for both hard constraints, which must be used, and soft constraints, which compete with standard extracted translation rules, as well as specifying associated feature weights. Additionally the XML format allows constraints on the lefthand side of SCFG rules, which allows constraints like forcing a particular span to be a NP.  We modified Joshua's chart-based decoder to support these constraints. 
+Integrating output from specialized modules (like transliterators, morphological analyzers, and modality translators) into the MT pipeline can improve translation performance, particularly for low-resource languages. We have implemented an XML interface that allows external modules to propose alternate translation rules (constraints) for a particular word span to the decoder \cite{PBML-2010-Joshua-modules}. Processing that is separate from the MT engine can suggest translations for some set of source side words and phrases. The XML format allows for both hard constraints, which must be used, and soft constraints, which compete with standard extracted translation rules, as well as specifying associated feature weights. In addition to specifying translations, the XML format allows constraints on the lefthand side of SCFG rules, which allows constraints like forcing a particular span to be translated as an NP.  We modified Joshua's chart-based decoder to support these constraints. 
 
 \section{Semiring Parsing}
 
