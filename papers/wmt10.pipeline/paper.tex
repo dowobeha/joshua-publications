@@ -14,11 +14,12 @@ The JHU Shared Task Submission}
 \author{Lane Schwartz\
 \thanks{\ Research conducted as a visiting researcher at Johns Hopkins University}\
 \\University of Minnesota\\Minneapolis, MN\\
-{\tt lane@cs.umn.edu} \And
-Chris Callison-Burch \\
-Johns Hopkins University \\
-Baltimore, MD\\
-{\tt ccb@cs.jhu.edu}}
+{\tt lane@cs.umn.edu}% \And
+%Chris Callison-Burch \\
+%Johns Hopkins University \\
+%Baltimore, MD\\
+%{\tt ccb@cs.jhu.edu}
+}
 
 \date{}
 
@@ -26,13 +27,13 @@ Baltimore, MD\\
 \maketitle
 
 \begin{abstract}
-We present the JHU submission to the 2010 WMT shared translation task. We describe processing steps using open data and open source software used in our submission, and provide the scripts and configurations required to train, tune, and test the machine translation system described herein.
+We present the Johns Hopkins University submission to the 2010 WMT shared translation task. We describe processing steps using open data and open source software used in our submission, and provide the scripts and configurations required to train, tune, and test our machine translation system.
 \end{abstract}
 
 
 \section{Introduction}
 
-Research investigating natural language process and computational linguistics can and should have an extremely low barrier to entry. The data with which we work is customarily available in common electronic formats. The computational techniques which we apply can typically be performed on commodity computing resources which are widely available. In short, there should be no reason why small research groups and even lone researchers should not be able to join and make substantive contributions furthering our field.
+Research investigating natural language processing and computational linguistics can and should have an extremely low barrier to entry. The data with which we work is customarily available in common electronic formats. The computational techniques which we apply can typically be performed on commodity computing resources which are widely available. In short, there should be no reason why small research groups and even lone researchers should not be able to join and make substantive contributions furthering our field.
 %
 The reality is less encouraging. 
 
@@ -61,7 +62,7 @@ The last four years have witnessed the implementation and release of numerous op
 
 The SRILM \cite{Stolcke2002}, IRSTLM \cite{IRSTLM}, and RandLM \cite{Talbot2007a} toolkits enable efficient training and querying of n-gram language models. 
 
-Freely available parallel corpora for numerous European languages have also been released in recent years. These include the Europarl \cite{Koehn-europarl} and JRC-Acquis \cite{Steinberger-2006} legislative corpora, each of which includes data for most EU language pairs. The smaller News Commentary \cite{Callison-Burch2007a,Callison-Burch2008a} provide smaller amounts of parallel data in the news genre. The recent Fr-En $10^9$ \cite{WMT09-Findings} corpus aggregates huge numbers of parallel French-English sentences from the web.
+Freely available parallel corpora for numerous European languages have also been released in recent years. These include the Europarl \cite{Koehn-europarl} and JRC-Acquis \cite{Steinberger-2006} legislative corpora, each of which includes data for most EU language pairs. The smaller News Commentary corpora \cite{Callison-Burch2007a,Callison-Burch2008a} provide smaller amounts of parallel data in the news genre. The recent Fr-En $10^9$ \cite{WMT09-Findings} corpus aggregates huge numbers of parallel French-English sentences from the web.
 
 Open source systems to address the complex workflows required to run non-trivial machine translation experiments have also been developed. These include {\tt experiment.perl} \cite{experiment.perl}, developed as a workflow management system at the University of Edinburgh, and LoonyBin \cite{LoonyBin}, a general hyperworkflow management utility from Carnegie Melon University.
 
@@ -77,7 +78,7 @@ Open source systems to address the complex workflows required to run non-trivial
 
 Running a statistical machine translation system to achieve state-of-the-art performance involves the configuration and execution of numerous interdependent intermediate tools. To manage task dependencies and tool configuration, our shared task workflow consists of a set of dependency scripts written for GNU Make \cite{gnumake}. 
 
-Figure \ref{dependencyGraph} shows a graph depicting the steps in our experimental workflow, and the dependencies between steps. Each node in the graph represents a step in the workflow; each step is with a Make script that defines how to run the tools required in that step. In each experiment, an additional configuration script is provided for each experimental step, defining the parameters to be used when running that step in the current experiment. Optional front-end wrapper scripts can also be provided, allowing for a complete experiment to be run - from downloading data and software through truecasing translated results - by executing a single make file.
+Figure \ref{dependencyGraph} shows a graph depicting the steps in our experimental workflow, and the dependencies between steps. Each node in the graph represents a step in the workflow; each step is implemented as a Make script that defines how to run the tools required in that step. In each experiment, an additional configuration script is provided for each experimental step, defining the parameters to be used when running that step in the current experiment. Optional front-end wrapper scripts can also be provided, allowing for a complete experiment to be run - from downloading data and software through truecasing translated results - by executing a single make file.
 
 This framework is also conducive to parallelization. Many tasks, such as preprocessing numerous training files, are not dependent on one another. In such cases {\tt make} can be configured to execute multiple processes simultaneously on a single multi-processor machine. In cases where scheduled distributed computing environments such as the Sun Grid Engine are configured, make files can be processed by scheduler-aware {\tt make} variants ({\tt distmake}, SGE {\tt qmake}, Sun Studio {\tt dmake}) which distribute outstanding tasks to available distributed machines using the relevant distributed scheduler.
 
@@ -129,14 +130,14 @@ All data was automatically downloaded, unzipped, and preprocessed prior to use. 
 
 Interpolated n-gram language models for the four target languages were built using the SRI Language Model Toolkit\footnote{ http://www-speech.sri.com/projects/srilm \\ SRILM version 1.5.7. Our experimental workflow requires that SRILM be compiled separately, with the \$SRILM environment variable set to the install location.}, with n-gram order set to 5. The \newcite{ChenGoodman98} technique for modified Kneser-Ney discounting \cite{Kneser1995} was applied during language model training.
 
-Following \newcite{Joshua-WMT}, a subset of the available training sentences is selected via subsampling; training sentences are selected based on the estimated likelihood of that sentence being useful later for translating a particular test corpus. 
+Following \newcite{Joshua-WMT}, a subset of the available training sentences was selected via subsampling; training sentences are selected based on the estimated likelihood of each sentence being useful later for translating a particular test corpus. 
 
 
 Given a subsampled parallel training corpus, word alignment is performed using the Berkeley aligner\footnote{http://berkeleyaligner.googlecode.com/files/berkeleyaligner\\\_unsupervised-2.1.tar.gz --- Berkeley aligner version 2.1} \cite{liang06alignment}. 
 
 For each language pair, a synchronous context free translation grammar is extracted for a particular test set, following the methods of \newcite{Lopez2008} as implemented in \cite{Schwartz-PBML}. For the largest training sets (French-English and English-French) the original \cite{Lopez2008} implementation included with Hiero was used to save time during training\footnote{It is expected that using the Joshua implementation should result in nearly identical results, albeit with somewhat more time required to extract the grammar.}.
 
-Because of the use of subsampling, the extracted translation grammars are targeted for use with a specific test set. Our experiments were begun prior to the release of the blind newstest2010 shared task test set. Subsampling was performed using the development tuning set, news-test2008, and the development test set, newstest2009. Once the newstest2010 test set was released, the process of subsampling, alignment, and grammar extraction was repeated to obtain translation grammars targeted for use with the shared task test set. 
+Because of the use of subsampling, the extracted translation grammars are targeted for use with a specific test set. Our experiments were begun prior to the release of the blind newstest2010 shared task test set. Subsampling was performed for the development tuning set, news-test2008, and the development test set, newstest2009. Once the newstest2010 test set was released, the process of subsampling, alignment, and grammar extraction was repeated to obtain translation grammars targeted for use with the shared task test set. 
 
 Our experiments used hierarchical phrase-based grammars containing exactly two nonterminals - the wildcard nonterminal X, and S, used to glue together neighboring constituents. Recent work has shown that parsing-based machine translation using SAMT \cite{samt2006} grammars with rich nonterminal sets can demonstrate substantial gains over hierarchical grammars for certain language pairs \cite{SCALE-report}. Joshua supports such grammars; the experimental workflow presented here could easily be extended in future research to incorporate the use of SAMT grammars with additional language pairs. 
 

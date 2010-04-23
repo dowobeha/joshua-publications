@@ -37,7 +37,9 @@ digraph G {
 		
 	//	subgraph clusterTranslate {
 			Translate [label="Translation"]
+			MBR
 			Recase [label="Truecase Translation"]
+			RecaseMBR [label="Truecase MBR"]
 	//	}
 		
 		// Preprocessing dependencies
@@ -69,7 +71,11 @@ digraph G {
 		RecaseGrammar -> Recase
 		RecaseLM -> Recase
 
-		Translate -> Recase
+		Translate -> MBR
+		MBR -> Recase
+		Recase -> RecaseMBR
+
+
 
 		// Preprocessing tools dependencies
 		Scripts -> RemoveXML [color=grey]
@@ -89,4 +95,7 @@ digraph G {
 		Joshua -> Recase [color=grey]
 		Joshua -> RecaseGrammar [color=grey]
 		
+		//Joshua -> Subsample [color=grey]
+		//Joshua -> RecaseSubsample [color=grey]
+
 		}
