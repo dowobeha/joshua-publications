@@ -74,9 +74,21 @@ and a cleaner pipeline for MT experiments.
 
 \section{Introduction}
 
-\textbf{Joshua} is an open-source toolkit for parsing-based machine translation that is written in Java. The initial release of \joshua  \cite{joshua-wmt09} was a re-implementation of the Hiero system \cite{hiero-2007} and all its associated algorithms, including: chart parsing, $n$-gram language model integration, beam and cube pruning, and $k$-best extraction.  The \joshua 1.0 release also included re-implementations of suffix array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction}  and minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
+\joshua is an open-source toolkit for parsing-based machine translation that is
+written in Java. The initial release of \joshua  \cite{joshua-wmt09} was
+a re-implementation of the Hiero system \cite{hiero-2007} and all its
+associated algorithms, including: chart parsing, $n$-gram language model
+integration, beam and cube pruning, and $k$-best extraction.  The \joshua 1.0
+release also included re-implementations of suffix array grammar extraction
+\cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction} and
+minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it
+included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
 
-This paper describes the additions to the toolkit over the past year, which together form the 2.0 release. The software has been heavily used by the authors and several other groups in their daily research, and has been substantially refined since the first release.  The most important new functions in the toolkit are: 
+This paper describes the additions to the toolkit over the past year, which
+together form the 2.0 release. The software has been heavily used by the
+authors and several other groups in their daily research, and has been
+substantially refined since the first release.  The most important new
+functions in the toolkit are:
 \begin{itemize}
 \item
 Support for any style of synchronous context free grammar (SCFG)
@@ -133,9 +145,24 @@ the bitext.  This constrains what types of phrases the decoder can use when prod
 Unlike GHKM \cite{Galley2004}, SAMT has the same coverage as Hiero, because it allows non-constituent phrases to get syntactic
 labels using CCG-style slash notation. Experimentally, we have found that the derivations created using syntactically motivated grammars exhibit more coherent syntactic structure than Hiero and typically result in better reordering, especially for languages with word orders that diverge from English, like Urdu \cite{SCALE-report}.
 
+
 \section{Specifying Constraints on Translation}
 
-Integrating output from specialized modules (like transliterators, morphological analyzers, and modality translators) into the MT pipeline can improve translation performance, particularly for low-resource languages. We have implemented an XML interface that allows external modules to propose alternate translation rules (constraints) for a particular word span to the decoder \cite{PBML-2010-Joshua-modules}. Processing that is separate from the MT engine can suggest translations for some set of source side words and phrases. The XML format allows for both hard constraints, which must be used, and soft constraints, which compete with standard extracted translation rules, as well as specifying associated feature weights. In addition to specifying translations, the XML format allows constraints on the lefthand side of SCFG rules, which allows constraints like forcing a particular span to be translated as an NP.  We modified \joshua's chart-based decoder to support these constraints. 
+Integrating output from specialized modules (like transliterators,
+morphological analyzers, and modality translators) into the MT pipeline can
+improve translation performance, particularly for low-resource languages. We
+have implemented an XML interface that allows external modules to propose
+alternate translation rules (constraints) for a particular word span to the
+decoder \cite{PBML-2010-Joshua-modules}. Processing that is separate from the
+MT engine can suggest translations for some set of source side words and
+phrases. The XML format allows for both hard constraints, which must be used,
+and soft constraints, which compete with standard extracted translation rules,
+as well as specifying associated feature weights. In addition to specifying
+translations, the XML format allows constraints on the lefthand side of SCFG
+rules, which allows constraints like forcing a particular span to be translated
+as an NP.  We modified \joshua's chart-based decoder to support these
+constraints. 
+
 
 \section{Semiring Parsing}
 
@@ -167,9 +194,20 @@ Bayes risk, variance of hypothesis length, gradient of entropy and Bayes risk, c
 % In these settings, we must compute the gradient of entropy or risk. 
 % The semiring can also be used for second-order gradient optimization algorithms.
 
+
 \section{Word Lattice Input}
 
-We generalized the bottom-up parsing algorithm that generates the translation hypergraph so that it supports translation of word lattices instead of just sentences.  Our implementation's runtime and memory overhead is proportional to the size of the lattice, rather than the number of paths in the lattice \cite{dyer-muresan-resnik:2008:ACLMain}.  Accepting lattice-based input allows the decoder to explore a distribution over input sentences,  allowing it to select the best translation from among all of them.  This is especially useful when \joshua is used to translate the output of statistical preprocessing components, such as speech recognizers or Chinese word segmenters, which can encode their alternative analyses as confusion networks or lattices. 
+We generalized the bottom-up parsing algorithm that generates the translation
+hypergraph so that it supports translation of word lattices instead of just
+sentences.  Our implementation's runtime and memory overhead is proportional to
+the size of the lattice, rather than the number of paths in the lattice
+\cite{dyer-muresan-resnik:2008:ACLMain}.  Accepting lattice-based input allows
+the decoder to explore a distribution over input sentences,  allowing it to
+select the best translation from among all of them.  This is especially useful
+when \joshua is used to translate the output of statistical preprocessing
+components, such as speech recognizers or Chinese word segmenters, which can
+encode their alternative analyses as confusion networks or lattices. 
+
 
 \section{Variational Decoding}
 
@@ -196,7 +234,6 @@ In this way, variational decoding considers all derivations in the hypergraph bu
 allows tractable decoding. 
 
 
-
 \section{Hypergraph-based Discriminative Training}
 
 Discriminative training with a large number of features has 
@@ -220,6 +257,7 @@ Given the current infrastructure, other training methods
 can also be easily supported with minimum coding.
 We plan to implement a large number of feature functions in \joshua so that exhaustive 
 feature engineering is possible for MT.
+
 
 \section{Minimum Error Rate Training}
 
@@ -253,6 +291,7 @@ implementation can be found in \newcite{Zaidan2009}.\footnote{The module
 is also available as a standalone application, {\em Z-MERT}, that can be used
 with other MT systems. (Software and documentation at: \url{http://cs.jhu.edu/~ozaidan/zmert}.)}
 
+
 \section{Visualization}
 
 We created tools for visualizing two of the main data structures used
@@ -273,8 +312,23 @@ could be improved.
 
 \section{Pipeline for Running MT Experiments}
 
-Reproducing other researchers' machine translation experiments is difficult because the pipeline is too complex to fully detail in short conference papers. We have put together a workflow framework for designing and running reproducible machine translation experiments using \joshua \cite{Schwartz-wmt10-pipline}. Each step in the machine translation workflow (data preprocessing, grammar training, MERT, decoding, etc) is modeled by a Make script that defines how to run the tools used in that step, and an auxiliary configuration file that defines the exact parameters to be used in that step for a particular experimental setup. Workflows configured using this framework allow a complete experiment to be run -- from downloading data and software through scoring the final translated results -- by executing a single Makefile.
-This framework encourages researchers to supplement research publications with links to the complete set of scripts and configurations that were actually used to run the experiment. The Johns Hopkins University submission for the WMT10 shared translation task was implemented in this framework, so it can be easily and exactly reproduced.
+Reproducing other researchers' machine translation experiments is difficult
+because the pipeline is too complex to fully detail in short conference papers.
+We have put together a workflow framework for designing and running
+reproducible machine translation experiments using \joshua \cite{Schwartz-wmt10-pipline}.
+Each step in the machine translation workflow (data preprocessing, grammar
+training, MERT, decoding, etc) is modeled by a Make script that defines how to
+run the tools used in that step, and an auxiliary configuration file that
+defines the exact parameters to be used in that step for a particular
+experimental setup. Workflows configured using this framework allow a complete
+experiment to be run -- from downloading data and software through scoring the
+final translated results -- by executing a single Makefile.
+
+This framework encourages researchers to supplement research publications with
+links to the complete set of scripts and configurations that were actually used
+to run the experiment. The Johns Hopkins University submission for the WMT10
+shared translation task was implemented in this framework, so it can be easily
+and exactly reproduced.
 
 
 \section*{Acknowledgements}
