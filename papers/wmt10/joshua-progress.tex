@@ -138,7 +138,7 @@ Bayes risk, variance of hypothesis length, gradient of entropy and Bayes risk, c
 
 \section{Word Lattice Input}
 
-We generalized the bottom-up parsing algorithm that generates the translation hypergraph so that it supports translation from word lattices instead of just sentences.  Our implementation has runtime and memory overhead that is proportional to the size of the lattice, rather than the number of paths in the lattice \cite{dyer-muresan-resnik:2008:ACLMain}.  This allows distribution over input sentences to be explored during decoding, and allows the best translation to be selected from among all of them.  This is especially useful when \joshua is used to translate the output of statistical preprocessing components, such as speech recognizers or word segmenters, which can encode their alternative analyses as confusion networks or lattices. 
+We generalized the bottom-up parsing algorithm that generates the translation hypergraph so that it supports translation of word lattices instead of just sentences.  Our implementation's runtime and memory overhead is proportional to the size of the lattice, rather than the number of paths in the lattice \cite{dyer-muresan-resnik:2008:ACLMain}.  Accepting lattice-based input allows the decoder to explore a distribution over input sentences,  allowing it to select the best translation from among all of them.  This is especially useful when \joshua is used to translate the output of statistical preprocessing components, such as speech recognizers or Chinese word segmenters, which can encode their alternative analyses as confusion networks or lattices. 
 
 \section{Variational Decoding}
 
