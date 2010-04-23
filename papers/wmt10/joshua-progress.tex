@@ -79,23 +79,23 @@ This paper describes the additions to the toolkit over the past year, which toge
 \item
 Support for any style of synchronous context free grammar (SCFG)
 % instead of just Hiero grammars.  This 
-including syntax augment machine translation (SAMT) grammars \cite{samt2006},
+including syntax augment machine translation (SAMT) grammars \cite{samt2006}
 \item
-Support for external modules to posit translations for spans in the input sentence that constrain decoding,    \cite{PBML-2010-Joshua-transliteration},  
+Support for external modules to posit translations for spans in the input sentence that constrain decoding   \cite{PBML-2010-Joshua-transliteration}
 \item
-Lattice parsing for dealing with input uncertainty, including ambiguous output from speech recognizers or Chinese word segmenters  \cite{dyer-muresan-resnik:2008:ACLMain},
+Lattice parsing for dealing with input uncertainty, including ambiguous output from speech recognizers or Chinese word segmenters  \cite{dyer-muresan-resnik:2008:ACLMain}
 \item
-Semiring parsing for unified dynamic programming \cite{li-eisner:2009:EMNLP} , 
+A semiring architecture over hypergraphs that allows many inference operations to be implemented easily and elegantly \cite{li-eisner:2009:EMNLP}
 \item
-Improvements to decoding through variational methods and approximations to intractable MAP decoding \cite{variational-decoding-acl09},
+Improvements to decoding through variational decoding and other approximate methods that overcome intractable MAP decoding \cite{variational-decoding-acl09}
 \item
-Hypergraph-based discriminative training for better feature engineering \cite{zhifei-forest-reranking-galebook}, 
+Hypergraph-based discriminative training for better feature engineering \cite{zhifei-forest-reranking-galebook}
 \item
-Visualization of the derivation trees and hypergraphs \cite{PBML-2010-Joshua-visualization}, 
+Visualization of the derivation trees and hypergraphs \cite{PBML-2010-Joshua-visualization}
 \item
-A convenient framework for designing and running reproducible machine translation experiments \cite{Schwartz-wmt10-pipline}.
+A convenient framework for designing and running reproducible machine translation experiments \cite{Schwartz-wmt10-pipline}
 \end{itemize}
-Below we give a short description for each of the new functions added.
+The sections below give a short description of each of these new functions.
 
 
 \section{Support for Syntax Augmented MT}
@@ -213,7 +213,7 @@ for aligned parallel corpora might help to determine how grammar extraction
 could be improved.
 
 
-\section{MT Pipeline}
+\section{Pipeline for Running MT Experiments}
 
 Reproducing other researchers' machine translation experiments is difficult because the pipeline is too complex to fully detail in short conference papers. We have put together a workflow framework for designing and running reproducible machine translation experiments using Joshua \newcite{Schwartz-wmt10-pipline}. Each step in the machine translation workflow (data preprocessing, grammar training, MERT, decoding, etc) is modeled by a Make script that defines how to run the tools used in that step, and an auxiliary configuration file that defines the exact parameters to be used in that step for a particular experimental setup. Workflows configured using this framework allow a complete experiment to be run - from downloading data and software through scoring the final translated results - by executing a single Makefile.
 
