@@ -55,25 +55,24 @@ $\star$ Natural Language Processing Lab, University of Minnesota, Minneapolis, M
 
 \maketitle
 \begin{abstract}
-We describe the progress we have made in the past year to \textbf{Joshua} \cite{joshua-wmt09}, 
-an open-source toolkit for parsing-based machine translation.
-The main new functions we have added into the toolkit include: 
-supporting for the syntax-augmented machine translation (SAMT) grammar,
-support for external modules to posit translations for spans in the input sentence that constrain decoding,  
+We describe the progress we have made in the past year on \textbf{Joshua} \cite{joshua-wmt09}, 
+an open source toolkit for parsing based machine translation.
+The new functionality includes: 
+support for translation grammars with a rich set of syntactic nonterminals,
+the ability for external modules to posit constraints on spans in the input sentence should be translated,  
 lattice parsing for dealing with input uncertainty,
-semiring parsing for unified dynamic programming, 
+a semiring framework that provides a unified way of doing various dynamic programming calculations, 
 variational decoding for approximating the intractable MAP decoding,
 hypergraph-based discriminative training for better feature engineering, 
-visualization of the derivation trees and hypergraphs, 
-and a unified pipeline for MT experiments.
+visualization of the derivation trees, 
+and a cleaner pipeline for MT experiments.
 \end{abstract}
 
 
-\listoftodos
 
 \section{Introduction}
 
-\textbf{Joshua} \cite{joshua-wmt09} is an open-source toolkit (written in Java) for parsing-based machine translation.
+\textbf{Joshua} \cite{joshua-wmt09} is an open-source toolkit for parsing-based machine translation (written in Java). 
 The first version implemented all the essential algorithms described 
 in \newcite{hiero-2007}: chart-parsing, $n$-gram language model integration, beam- and cube-pruning, and $k$-best extraction.  
 It also implemented suffix-array grammar extraction \cite{lopez:2007:EMNLP-CoNLL2007} 
@@ -114,7 +113,7 @@ Below we give a short description for each of the new functions added.
 \todo{juri or ccb}
 
 
-\section{Specifying Constraints on the Rules}
+\section{Specifying Constraints on Rules}
 \todo{anni}
 
 \section{Lattice Parsing}
