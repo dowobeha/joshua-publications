@@ -22,7 +22,7 @@
 
 \newcommand{\joshua}{\textbf{Joshua}}
 
-\title{Joshua 2.0: A Toolkit for Parsing-Based Machine Translation \\with Syntax, Semirings and Other Goodies }
+\title{Joshua 2.0: A Toolkit for Parsing-Based Machine Translation \\with Syntax, Semirings, Discriminative Training and Other Goodies }
 
 \author{
 Zhifei Li,\,\,\,
@@ -127,18 +127,37 @@ second-order version \cite{li-eisner:2009:EMNLP}.
 The first- and second-order expectation semirings can be used compute many interesting quantities over the hypergraph.
 These quantities include expected hypothesis length, feature expectation, entropy, cross-entropy, Kullback-Leibler divergence,
 Bayes risk, variance of hypothesis length, gradient of entropy and Bayes risk, covariance and Hessian matrix, and so on.
+
 % The second-order expectation semiring is essential for many interesting training paradigms 
 % such as deterministic annealing \cite{Rose98deterministicannealing}, minimum risk \cite{smith-eisner:2006:POS},
 % active and semi-supervised learning \cite{entropy-mini,semiCRF-jiao}.
 % In these settings, we must compute the gradient of entropy or risk. 
 % The semiring can also be used for second-order gradient optimization algorithms.
 
+\section{Variational Decoding}
+Statistical models in machine translation exhibit spurious ambiguity.
+That is, the probability of an output string is split
+among many distinct derivations (e.g., trees or
+segmentations). In principle, the goodness of a
+string is measured by the total probability of its
+many derivations. However, finding the best string
+(e.g., during decoding) is then computationally intractable.
+Therefore, the first version implemented the Viterbi ?????Joshua most systems use a simple
+Viterbi approximation that measures the goodness 
+of a string using only its most probable derivation.
+
+Instead, we develop a variational approximation \cite{variational-decoding-acl09},
+which considers all the derivations but still
+allows tractable decoding. 
+
 
 
 \section{Hypergraph-based Discriminative Training}
-\todo{zhifei}
+Discriminative training with a large number of features has 
+great potential to improve the MT performance.
+We have implemented the hypergraph-based 
 
-\cite{variational-decoding-acl09}
+
 \cite{oracle-extraction-naacl09}
 
 \section{Visualization}
