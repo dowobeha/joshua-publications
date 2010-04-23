@@ -166,12 +166,28 @@ allows tractable decoding.
 
 
 \section{Hypergraph-based Discriminative Training}
+
 Discriminative training with a large number of features has 
-great potential to improve the MT performance.
-We have implemented the hypergraph-based 
+potential to improve the MT performance.
+We have implemented the hypergraph-based minimum risk training \cite{li-eisner:2009:EMNLP},
+which minimizes the {\em expected loss} of the reference translations.
+The minimum-risk objective can be optimized by a gradient-based method, where
+the risk and its gradient can be computed using a second-order expectation semiring.
+For optimization, we use both L-BFGS\footnote{http://en.wikipedia.org/wiki/L-BFGS} 
+and Rprop\footnote{http://en.wikipedia.org/wiki/Rprop}.
 
+We have also implemented the average Peceptron algorithm and the forest-reranking \cite{zhifei-forest-reranking-galebook}.
+Since the reference translation may not be in the hypergraph due to pruning or inherent
+defficiency of the translation grammar, we need to use an {\em oracle translation} (i.e., the translation in
+the hypergraph that is most simmilar to the reference translation) as a surrogate for training.
+We implemented the {\em oracle extraction} algorithm described by \newcite{oracle-extraction-naacl09}
+for this purpose.
 
-\cite{oracle-extraction-naacl09}
+Given the current infrastructure, other training methods 
+(e.g., maximum conditional likelihood or MIRA as used by \newcite{chiang-knight-wang:2009:NAACLHLT09})
+can also be easily supported with minimum coding.
+We plan to implement a large number of feature functions in \joshua so that exhaustive 
+feature engineering is possible for MT.
 
 \section{Visualization}
 
