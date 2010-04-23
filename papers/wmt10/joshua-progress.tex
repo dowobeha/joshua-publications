@@ -108,7 +108,26 @@ Below we give a short description for each of the new functions added.
 \cite{oracle-extraction-naacl09}
 
 \section{Visualization}
-\todo{jonny}
+
+We have introduced tools for visualizing two of the main data structures used
+in Joshua \cite{joshua-viz}. Each visualization tool is implemented as a
+stand-alone program that hooks into the pipeline, but they are distributed with
+Joshua. The first program is a hypergraph visualizer. The user can choose from
+a set of input sentences, then call the decoder to build the hypergraph.
+
+The second is a derivation-tree visualizer. Joshua can produce output formatted
+as a parse tree, where each nonterminal has been annotated with its source-side
+span. The visualizer can read in multiple n-best lists in this format, then
+display the resulting derivation trees side-by-side. We have found that
+visually inspecting these derivation trees is advantageous in debugging many
+grammars.
+
+We would like to add visualization tools for more parts of the pipeline. For
+example, a chart visualizer would make it easier for researchers to tell where
+search errors were happening during decoding, and why. An alignment visualizer
+for aligned parallel corpora might help to determine how grammar extraction 
+could be improved.
+
 
 \section{MT Pipeline}
 \todo{lane}
