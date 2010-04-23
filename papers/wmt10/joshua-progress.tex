@@ -145,13 +145,13 @@ We generalized the bottom-up parsing algorithm that generates the translation hy
 Statistical models in machine translation exhibit spurious ambiguity.
 That is, the probability of an output string is split
 among many distinct derivations (e.g., trees or
-segmentations). In principle, the goodness of a
+segmentations) that have the same yield. In principle, the goodness of a
 string is measured by the total probability of its
 many derivations. However, finding the best string
 during decoding is then NP-hard.
 The first version of \joshua implemented the
-Viterbi approximation that measures the goodness 
-of a string using only its most probable derivation.
+Viterbi approximation, which measures the goodness 
+of a translation using only its most probable derivation.
 
 The Viterbi approximation is efficient, but it ignores most of the derivations in the hypergraph.
 We implemented variational decoding \cite{variational-decoding-acl09}, which works as follows.
