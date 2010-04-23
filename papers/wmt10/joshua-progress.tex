@@ -128,10 +128,13 @@ the bitext.
 \end{center}
 To ensure good coverage, the SAMT approach concatenates syntactic
 constituents or uses CCG-style labels when there is no single
-constituent spanning a nonterminal. The resulting grammar 
+constituent spanning a nonterminal. The derivations licensed by the
+resulting grammar are constrained to match the syntactic structure,
+typically leading to more consistent reorderings.
 
 \joshua's decoder supports SAMT-style grammars as well as non-syntactic
-nonterminal annotations. An SAMT grammar  
+nonterminal annotations obtained from other sources, such as named
+entity taggers. 
 
 \section{Specifying Constraints on Translation}
 
