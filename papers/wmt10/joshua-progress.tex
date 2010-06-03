@@ -74,15 +74,17 @@ and a cleaner pipeline for MT experiments.
 
 \section{Introduction}
 
-\joshua is an open-source toolkit for parsing-based machine translation that is
-written in Java. The initial release of \joshua  \cite{joshua-wmt09} was
-a re-implementation of the Hiero system \cite{hiero-2007} and all its
-associated algorithms, including: chart parsing, $n$-gram language model
-integration, beam and cube pruning, and $k$-best extraction.  The \joshua 1.0
-release also included re-implementations of suffix array grammar extraction
-\cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction} and
-minimum error rate training \cite{och-mert,Zaidan2009}.  Additionally, it
-included parallel and distributed computing techniques for salability \cite{Joshua-old}. 
+\joshua is an open-source toolkit for parsing-based machine
+translation that is written in Java. The initial release of \joshua
+\cite{joshua-wmt09} was a re-implementation of the Hiero system
+\cite{hiero-2007} and all its associated algorithms, including: chart
+parsing, $n$-gram language model integration, beam and cube pruning,
+and $k$-best extraction.  The \joshua 1.0 release also included
+re-implementations of suffix array grammar extraction
+\cite{lopez:2007:EMNLP-CoNLL2007,PBML-2010-Joshua-grammar-extraction}
+and minimum error rate training \cite{och-mert,Zaidan2009}.
+Additionally, it included parallel and distributed computing
+techniques for scalability \cite{Joshua-old}.
 
 This paper describes the additions to the toolkit over the past year, which
 together form the 2.0 release. The software has been heavily used by the
@@ -116,10 +118,15 @@ The sections below give short descriptions for each of these new functions.
 
 \section{Support for Syntax-based Translation}
 
-The initial release of \joshua supported only Hiero-style SCFGs, which use a single nonterminal symbol X.  This release includes support for arbitrary SCFGs, including ones that use a rich set of linguistic nonterminal symbols.  
-In particular we have added support for \newcite{samt2006}'s syntax-augmented machine
-translation. SAMT grammar extraction is identical to Hiero grammar extraction, except that one side of the parallel is parsed, and syntactic labels replace the X
-nonterminals in Hiero-style rules.  Instead of extracting this Hiero rule from the bitext
+The initial release of \joshua supported only Hiero-style SCFGs, which
+use a single nonterminal symbol X.  This release includes support for
+arbitrary SCFGs, including ones that use a rich set of linguistic
+nonterminal symbols.  In particular we have added support for
+\newcite{samt2006}'s syntax-augmented machine translation. SAMT
+grammar extraction is identical to Hiero grammar extraction, except
+that one side of the parallel corpus is parsed, and syntactic labels
+replace the X nonterminals in Hiero-style rules.  Instead of
+extracting this Hiero rule from the bitext
 
 \noindent
 \begin{tabular}{c}
@@ -128,9 +135,10 @@ nonterminals in Hiero-style rules.  Instead of extracting this Hiero rule from t
 \end{tabular}
 
 \noindent
-the nonterminals can be labeled according to
-which constituents cover the nonterminal span on the parsed side of
-the bitext.  This constrains what types of phrases the decoder can use when producing a translation.
+the nonterminals can be labeled according to which constituents cover
+the nonterminal span on the parsed side of the bitext.  This
+constrains what types of phrases the decoder can use when producing a
+translation.
 
 \noindent
 \begin{tabular}{c}
@@ -142,8 +150,13 @@ the bitext.  This constrains what types of phrases the decoder can use when prod
 \end{tabular}
 
 \noindent
-Unlike GHKM \cite{Galley2004}, SAMT has the same coverage as Hiero, because it allows non-constituent phrases to get syntactic
-labels using CCG-style slash notation. Experimentally, we have found that the derivations created using syntactically motivated grammars exhibit more coherent syntactic structure than Hiero and typically result in better reordering, especially for languages with word orders that diverge from English, like Urdu \cite{SCALE-report}.
+Unlike GHKM \cite{Galley2004}, SAMT has the same coverage as Hiero,
+because it allows non-constituent phrases to get syntactic labels
+using CCG-style slash notation. Experimentally, we have found that the
+derivations created using syntactically motivated grammars exhibit
+more coherent syntactic structure than Hiero and typically result in
+better reordering, especially for languages with word orders that
+diverge from English, like Urdu \cite{SCALE-report}.
 
 
 \section{Specifying Constraints on Translation}
@@ -236,14 +249,14 @@ allows tractable decoding.
 
 \section{Hypergraph-based Discriminative Training}
 
-Discriminative training with a large number of features has 
-potential to improve the MT performance.
-We have implemented the hypergraph-based minimum risk training \cite{li-eisner:2009:EMNLP},
+Discriminative training with a large number of features has potential
+to improve the MT performance.  We have implemented the
+hypergraph-based minimum risk training \cite{li-eisner:2009:EMNLP},
 which minimizes the {\em expected loss} of the reference translations.
-The minimum-risk objective can be optimized by a gradient-based method, where
-the risk and its gradient can be computed using a second-order expectation semiring.
-For optimization, we use both L-BFGS\footnote{http://en.wikipedia.org/wiki/L-BFGS} 
-and Rprop\footnote{http://en.wikipedia.org/wiki/Rprop}.
+The minimum-risk objective can be optimized by a gradient-based
+method, where the risk and its gradient can be computed using a
+second-order expectation semiring.  For optimization, we use both
+L-BFGS \cite{lbfgs} and Rprop \cite{rprop}.
 
 We have also implemented the average Perceptron algorithm and forest-reranking \cite{zhifei-forest-reranking-galebook}.
 Since the reference translation may not be in the hypergraph due to pruning or inherent
